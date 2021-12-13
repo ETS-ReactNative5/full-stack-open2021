@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 
-const Button = ({ handleClick }) => {
+const Button = ({ text, handleClick }) => {
   return (
     <button onClick={handleClick}>
-      Next Anecdote
+      {text}
     </button>
   )
 }
@@ -20,14 +20,33 @@ const App = () => {
   ]
    
   const [selected, setSelected] = useState(0)
+  const [points, setPoints] = useState({
+    0: 0,
+    1: 0,
+    2: 0,
+    3: 0,
+    4: 0,
+    5: 0,
+    6: 0,
+  })
   const randomQuote = () => {
-    setSelected(Math.floor(Math.random() * 7))
+    setSelected(Math.floor(Math.random() * 7));
+  }
+
+  const vote = ()  => {
+    const voteCopy = {
+      ...points, 
+      [selected]: points[selected] + 1,
+    };
+    setPoints(voteCopy);
   }
 
   return (
     <div>
       <p>{anecdotes[selected]}</p>
-      <Button handleClick={randomQuote}/>
+      <p>The quote has {points[selected]} points</p>
+      <Button text = {'Next Anecdote'} handleClick={randomQuote}/>
+      <Button text = {'Vote'} handleClick={vote} />
     </div>
   )
 }
