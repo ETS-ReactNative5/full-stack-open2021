@@ -8,18 +8,30 @@ const Button = ({ handleClick, text}) => {
   )
 }
 
-const Statistic = ({ text, statistic, sign, initialState }) => {
+const Statistic = ({initialState, valueGood, valueNeutral, valueBad, valueAll,  valueAverage, valuePositive }) => {
   if (initialState) {
     return (
-      <p>
-        {text}: {statistic} {sign}
-      </p>
+      <>
+        <StatisticLine text={'good'} value={valueGood} />
+        <StatisticLine text={'neutral'} value={valueNeutral}/>
+        <StatisticLine text={'bad'} value={valueBad}/>
+        <StatisticLine text={'All'} value={valueAll}/>
+        <StatisticLine text={'Average'} value={valueAverage}/>
+        <StatisticLine text={'Positive'} value={valuePositive} sign={'%'}/>
+      </>
     )
   } else {
     return ''
   }
 }
 
+const StatisticLine = ({ text, value, sign}) => {
+  return (
+    <p>
+      {text}: {value} {sign}
+    </p>
+  )
+}
 
 const App = () => {
   // save clicks of each button to its own state
@@ -55,12 +67,7 @@ const App = () => {
         text={'Bad'} />
       <h1>Statistics</h1>
       {(!initial) ? 'No Feedback Given' : ''}
-      <Statistic text={'Good'} statistic={good} initialState={initial}/>
-      <Statistic text={'Neutral'} statistic={neutral} initialState={initial}/>
-      <Statistic text={'Bad'} statistic={bad} initialState={initial}/>
-      <Statistic text={'All'} statistic={all} initialState={initial}/>
-      <Statistic text={'Average'} statistic={(average == 0) ? 0 : average / all} initialState={initial}/>
-      <Statistic text={'Positive'} statistic={(good == 0 || all == 0) ? 0 : (good / all) * 100} sign={'%'} initialState={initial}/>
+      <Statistic initialState={initial} valueGood={good} valueNeutral={neutral} valueBad={bad} valueAll={all} valueAverage={(average == 0) ? 0 : average / all} valuePositive={(good == 0 || all == 0) ? 0 : (good / all) * 100} />
     </div>
   )
 }
