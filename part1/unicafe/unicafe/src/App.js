@@ -11,14 +11,14 @@ const Button = ({ handleClick, text}) => {
 const Statistic = ({initialState, valueGood, valueNeutral, valueBad, valueAll,  valueAverage, valuePositive }) => {
   if (initialState) {
     return (
-      <>
+      <table>
         <StatisticLine text={'good'} value={valueGood} />
         <StatisticLine text={'neutral'} value={valueNeutral}/>
         <StatisticLine text={'bad'} value={valueBad}/>
         <StatisticLine text={'All'} value={valueAll}/>
         <StatisticLine text={'Average'} value={valueAverage}/>
         <StatisticLine text={'Positive'} value={valuePositive} sign={'%'}/>
-      </>
+      </table>
     )
   } else {
     return ''
@@ -27,9 +27,14 @@ const Statistic = ({initialState, valueGood, valueNeutral, valueBad, valueAll,  
 
 const StatisticLine = ({ text, value, sign}) => {
   return (
-    <p>
-      {text}: {value} {sign}
-    </p>
+    <tr>
+      <td>
+        {text}
+      </td>
+      <td>
+       {value} {sign}
+      </td>
+    </tr>
   )
 }
 
