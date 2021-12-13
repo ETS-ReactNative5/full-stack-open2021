@@ -8,6 +8,14 @@ const Button = ({ handleClick, text}) => {
   )
 }
 
+const Statistics = ({ text, statistic}) => {
+  return (
+    <p>
+      {text}: {}
+    </p>
+  )
+}
+
 
 const App = () => {
   // save clicks of each button to its own state
@@ -16,7 +24,6 @@ const App = () => {
   const [bad, setBad] = useState(0)
   const [all, setAll] = useState(0)
   const [average, setAverage] = useState(0)
-
 
   return (
     <div>
