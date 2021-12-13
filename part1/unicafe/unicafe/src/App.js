@@ -8,10 +8,10 @@ const Button = ({ handleClick, text}) => {
   )
 }
 
-const Statistics = ({ text, statistic}) => {
+const Statistic = ({ text, statistic, sign }) => {
   return (
     <p>
-      {text}: {}
+      {text}: {statistic} {sign}
     </p>
   )
 }
@@ -46,12 +46,12 @@ const App = () => {
         }} 
         text={'Bad'} />
       <h1>Statistics</h1>
-      <p>Good: {good}</p>
-      <p>Nutral: {neutral}</p>
-      <p>Bad: {bad} </p>
-      <p>All: {all} </p>
-      <p>Average: {average / all} </p>
-      <p>Positive: {(good / all) * 100} %</p>
+      <Statistic text={'Good'} statistic={good} />
+      <Statistic text={'Neutral'} statistic={neutral} />
+      <Statistic text={'Bad'} statistic={bad} />
+      <Statistic text={'All'} statistic={all} />
+      <Statistic text={'Average'} statistic={(average == 0) ? 0 : average / all} />
+      <Statistic text={'Positive'} statistic={(good == 0 || all == 0) ? 0 : (good / all) * 100} sign={'%'}/>
     </div>
   )
 }
