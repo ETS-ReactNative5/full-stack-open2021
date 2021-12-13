@@ -29,6 +29,7 @@ const App = () => {
     5: 0,
     6: 0,
   })
+  const [mostVoted, setMostVoted] = useState(0)
   const randomQuote = () => {
     setSelected(Math.floor(Math.random() * 7));
   }
@@ -39,14 +40,23 @@ const App = () => {
       [selected]: points[selected] + 1,
     };
     setPoints(voteCopy);
+    for (let i = 0; i < 7; i++) {
+      if (voteCopy[selected] > points[mostVoted]) {
+        setMostVoted(selected)
+      }
+    }
   }
 
   return (
     <div>
+      <h1>Anecdote of the Day</h1>
       <p>{anecdotes[selected]}</p>
       <p>The quote has {points[selected]} points</p>
       <Button text = {'Next Anecdote'} handleClick={randomQuote}/>
       <Button text = {'Vote'} handleClick={vote} />
+      <h1>Anecdote with the Most Votes</h1>
+      <p>{anecdotes[mostVoted]}</p>
+      <p>The quote has {points[mostVoted]} points</p>
     </div>
   )
 }
