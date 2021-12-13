@@ -72,7 +72,7 @@ const App = () => {
         text={'Bad'} />
       <h1>Statistics</h1>
       {(!initial) ? 'No Feedback Given' : ''}
-      <Statistic initialState={initial} valueGood={good} valueNeutral={neutral} valueBad={bad} valueAll={all} valueAverage={(average == 0) ? 0 : average / all} valuePositive={(good == 0 || all == 0) ? 0 : (good / all) * 100} />
+      <Statistic initialState={initial} valueGood={good} valueNeutral={neutral} valueBad={bad} valueAll={all} valueAverage={(average === 0) ? 0 : average / all} valuePositive={(good === 0 || all === 0) ? 0 : (good / all) * 100} />
     </div>
   )
 }
