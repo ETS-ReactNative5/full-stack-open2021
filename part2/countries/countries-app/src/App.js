@@ -60,6 +60,10 @@ const App = () => {
     let filteredData = countries.filter((country) => country.name.common.toLowerCase().includes(name.toLowerCase()))
     setCountryView(showCountry(filteredData))
   }
+
+  const clearCountryView = () => {
+    setCountryView('')
+  }
   
   const filterCountry = () => {
     let filteredData = countries.filter((country) => country.name.common.toLowerCase().includes(filter.toLowerCase()))
@@ -67,7 +71,18 @@ const App = () => {
       return <div> Too many matches, specify another filter </div>
     } else if (filteredData.length <= 10 && filteredData.length > 1) {
       return (
-        filteredData.map((country, i) => <div key={i}>{country.name.common}<button className={country.name.common} onClick={(e) => filterCountryBtn(e.target.classList[0])}>Show</button></div>)
+        filteredData.map((country, i) => 
+        <div key={i}>{country.name.common}
+        <button 
+          className={country.name.common} 
+          onClick={(e) => filterCountryBtn(e.target.classList[0])}
+        >
+          Show
+        </button>
+        <button onClick={() => clearCountryView()}>
+          Hide
+        </button>
+        </div>)
       )
     } else if (filteredData.length == 1) {
       // console.log(filteredData[0])
