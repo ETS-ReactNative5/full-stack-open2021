@@ -86,6 +86,11 @@ const App = () => {
       number: newNumber,
       id: persons.length + 1
     }
+    axios
+    .post('http://localhost:3001/persons', nameObject)
+    .then(res => {
+      console.log(res);
+    })
     if (persons[0].name === nameObject.name) {
       alert(`${nameObject.name} is already added to phonebook`)
     } else {
@@ -93,6 +98,7 @@ const App = () => {
       setNewName('')
       setNewNumber('')
     }
+    
   }
 
   const filterPersonList = () => {
