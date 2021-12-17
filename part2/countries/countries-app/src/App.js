@@ -1,11 +1,30 @@
 import { useState, useEffect } from "react";
 import axios from 'axios'
 
+const Countries = ({ handleValueChange, countries, countryView, filterCountry, showAll }) => {
+  return (
+    <>
+      <p>Find Countries <input onChange={(e) => handleValueChange(e)}/></p>
+      {showAll ? countries.map((country, i) => {
+          return <div key={i}>{country.name.common}</div>
+      }) : filterCountry()}
+      <div>{countryView}</div>
+    </>
+  )
+}
+
+
 
 const App = () => {
   const [countries, setCountries] = useState([])
   const [filter, setFilter] = useState('')
   const [showAll, setShowAll] = useState(true)
+  const [countryInfo, setCountryInfo] = useState({
+    name: '',
+    temperature: '',
+    wind: '',
+    logo: '',
+  })
   const [countryView, setCountryView] = useState('')
 
   useEffect(() => {
@@ -24,6 +43,7 @@ const App = () => {
       setShowAll(true)
     }
   }, [filter])
+
 
   const handleValueChange = (e) => {
     setFilter(e.target.value)   
@@ -44,15 +64,20 @@ const App = () => {
   }
 
   const showCountry = (filteredData) => {
+
     return (
       <div key={1}>
-          <h1>{filteredData[0].name.common}</h1>
-          <p>Capital: {filteredData[0].capital}</p>
-          <p>Population: {filteredData[0].population}</p>
-          <h2>Languages</h2>
-          {showLanguages(filteredData)}
-          <img src={filteredData[0].flags.png}/>
-        </div>
+        <h1>{filteredData[0].name.common}</h1>
+        <p>Capital: {filteredData[0].capital}</p>
+        <p>Population: {filteredData[0].population}</p>
+        <h2>Languages</h2>
+        {showLanguages(filteredData)}
+        <img src={filteredData[0].flags.png}/>
+        <h2> Weather in {countryInfo.name}</h2>
+        <p>Temperature: {}</p>
+        {<img src={`https://openweathermap.org/img/w/.png`}/>}
+        <p>Wind: {}</p>
+      </div>
     )
   }
 
@@ -67,6 +92,7 @@ const App = () => {
   
   const filterCountry = () => {
     let filteredData = countries.filter((country) => country.name.common.toLowerCase().includes(filter.toLowerCase()))
+    
     if (filteredData.length > 10) {
       return <div> Too many matches, specify another filter </div>
     } else if (filteredData.length <= 10 && filteredData.length > 1) {
@@ -84,21 +110,21 @@ const App = () => {
         </button>
         </div>)
       )
-    } else if (filteredData.length == 1) {
-      // console.log(filteredData[0])
-      return (
-        showCountry(filteredData)
-      )
+    } else if (filteredData.length === 1) {
+        return showCountry(filteredData)
+    } else if (filteredData.length < 1) {
+      return <div> No results </div>
     }
   }
-
   return (
     <div>
-      <p>Find Countries <input onChange={(e) => handleValueChange(e)}/></p>
-      {showAll ? countries.map((country, i) => {
-          return <div key={i}>{country.name.common}</div>
-      }) : filterCountry()}
-      <div>{countryView}</div>
+      <Countries 
+        handleValueChange={handleValueChange} 
+        countries={countries} 
+        countryView={countryView} 
+        filterCountry={filterCountry}
+        showAll={showAll}
+       />
     </div>
   );
 }
