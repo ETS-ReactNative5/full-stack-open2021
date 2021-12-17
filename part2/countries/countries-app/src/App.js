@@ -19,12 +19,6 @@ const App = () => {
   const [countries, setCountries] = useState([])
   const [filter, setFilter] = useState('')
   const [showAll, setShowAll] = useState(true)
-  const [countryInfo, setCountryInfo] = useState({
-    name: '',
-    temperature: '',
-    wind: '',
-    logo: '',
-  })
   const [countryView, setCountryView] = useState('')
 
   useEffect(() => {
@@ -63,7 +57,7 @@ const App = () => {
     )
   }
 
-  const showCountry = (filteredData) => {
+  const showCountry = (filteredData, res) => {
 
     return (
       <div key={1}>
@@ -73,17 +67,27 @@ const App = () => {
         <h2>Languages</h2>
         {showLanguages(filteredData)}
         <img src={filteredData[0].flags.png}/>
-        <h2> Weather in {countryInfo.name}</h2>
-        <p>Temperature: {}</p>
-        {<img src={`https://openweathermap.org/img/w/.png`}/>}
-        <p>Wind: {}</p>
+        <h2> Weather in {filteredData[0].name.common}</h2>
+        <p>Temperature: {Math.round((res.data.main.temp - 273.15)*100) /100} Celsius</p>
+        {<img src={`https://openweathermap.org/img/w/${res.data.weather[0].icon}.png`}/>}
+        <p>Wind: {res.data.wind.speed * 2.23694} mph</p>
       </div>
     )
   }
 
+  const weatherCallAPI = (name, filteredData) => {
+    axios
+    .get(`https://api.openweathermap.org/data/2.5/weather?q=${name}&appid=5bf449ff183a3e099f210e8427e72895`)
+    .then(res => {
+      console.log(res)
+      setCountryView(showCountry(filteredData, res))
+    })
+  }
+
   const filterCountryBtn = (name) => {
     let filteredData = countries.filter((country) => country.name.common.toLowerCase().includes(name.toLowerCase()))
-    setCountryView(showCountry(filteredData))
+    weatherCallAPI(name, filteredData)
+    
   }
 
   const clearCountryView = () => {
@@ -95,7 +99,7 @@ const App = () => {
     
     if (filteredData.length > 10) {
       return <div> Too many matches, specify another filter </div>
-    } else if (filteredData.length <= 10 && filteredData.length > 1) {
+    } else if (filteredData.length <= 10 && filteredData.length > 0) {
       return (
         filteredData.map((country, i) => 
         <div key={i}>{country.name.common}
@@ -110,8 +114,6 @@ const App = () => {
         </button>
         </div>)
       )
-    } else if (filteredData.length === 1) {
-        return showCountry(filteredData)
     } else if (filteredData.length < 1) {
       return <div> No results </div>
     }
