@@ -117,13 +117,28 @@ const App = () => {
     .then(res => {
       console.log(res);
     })
-    if (persons[0].name === nameObject.name) {
-      alert(`${nameObject.name} is already added to phonebook`)
-    } else {
-      setPersons(persons.concat(nameObject))
-      setNewName('')
-      setNewNumber('')
-    }
+    persons.map((person) => {
+      if (person.name === nameObject.name) {
+        if (window.confirm(`${nameObject.name} is already added to phonebook, replace the old number with the new one?`)) {
+          personService
+          .update(person.id, nameObject)
+          .then(res => {
+            console.log(res)
+            personService
+            .getAll()
+            .then(res => {
+              setPersons(res.data)
+            })
+            setNewName('')
+            setNewNumber('')
+          })
+        }
+      } else {
+        setPersons(persons.concat(nameObject))
+        setNewName('')
+        setNewNumber('')
+      }
+    })
     
   }
 
