@@ -123,39 +123,52 @@ const App = () => {
       number: newNumber,
       id: persons.length + 1
     }
-    personService
-    .create(nameObject)
-    .then(res => {
-      console.log(res);
-    })
-    persons.map((person) => {
-      if (person.name === nameObject.name) {
-        if (window.confirm(`${nameObject.name} is already added to phonebook, replace the old number with the new one?`)) {
-          personService
-          .update(person.id, nameObject)
-          .then(res => {
-            console.log(res)
-            personService
-            .getAll()
-            .then(res => {
-              setPersons(res.data)
-              
-            })
-            setNewName('')
-            setNewNumber('')
-          })
-        }
-      } else {
-        setPersons(persons.concat(nameObject))
-        setMessage(`Added ${person.name}`)
-        setTimeout(() => {
-          setMessage(null)
-        }, 5000)
-        setNewName('')
-        setNewNumber('')
-      }
-    })
     
+    persons.map((person) => {
+      if (person.name === nameObject.name && window.confirm(`${nameObject.name} is already added to phonebook, replace the old number with the new one?`)) {
+        personService
+        .update(person.id, nameObject)
+        .then(res => {
+          console.log(res)
+          setMessage(`Changed ${person.name}`)
+          setTimeout(() => {
+          setMessage(null)
+            }, 5000)
+          setNewName('')
+          setNewNumber('')
+          personService
+          .getAll()
+          .then(res => {
+            setPersons(res.data)
+
+          })
+        })
+        .catch(error => {
+          console.log(error)
+        })
+      } else {
+        personService
+        .create(nameObject)
+        .then(res => {
+          console.log(res);
+          setPersons(persons.concat(res.data))
+          setNewName('')
+          setNewNumber('')
+          setMessage(`Added ${nameObject.name}`)
+          setTimeout(() => {
+            setMessage(null)
+          }, 5000)
+          personService
+          .getAll()
+          .then(res => {
+            setPersons(res.data)
+          })
+        })
+        .catch(error => {
+          console.log(error)
+        })
+      }
+    }) 
   }
 
   const filterPersonList = () => {
