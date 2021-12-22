@@ -90,7 +90,6 @@ const App = () => {
   const [newFilter, setNewFilter] = useState('')
   const [showAll, setShowAll] = useState(true)
   const [message, setMessage] = useState(null)
-  const [found, setFound] = useState(false)
 
   useEffect(() => {
     personService
@@ -127,51 +126,52 @@ const App = () => {
     
     persons.forEach((person) => {
       if (person.name === nameObject.name && window.confirm(`${nameObject.name} is already added to phonebook, replace the old number with the new one?`)) {
-        personService
-        .update(person.id, nameObject)
-        .then(res => {
-          console.log(res)
-          setMessage(`Changed ${person.name}`)
-          setTimeout(() => {
-          setMessage(null)
-            }, 5000)
-          setNewName('')
-          setNewNumber('')
-          setFound(true)
-          personService
-          .getAll()
+        return (personService
+          .update(person.id, nameObject)
           .then(res => {
-            setPersons(res.data)
+            console.log(res)
+            setMessage(`Changed ${person.name}`)
+            setTimeout(() => {
+            setMessage(null)
+              }, 5000)
+            setNewName('')
+            setNewNumber('')
+            personService
+            .getAll()
+            .then(res => {
+              setPersons(res.data)
+            })
           })
-        })
-        .catch(error => {
-          console.log(error)
-        })
+          .catch(error => {
+            console.log(error)
+          })
+        )
+      } else {
+        return (
+          personService
+          .create(nameObject)
+          .then(res => {
+            console.log(res);
+            setPersons(persons.concat(res.data))
+            setNewName('')
+            setNewNumber('')
+            setMessage(`Added ${nameObject.name}`)
+            setTimeout(() => {
+              setMessage(null)
+            }, 5000)
+            personService
+            .getAll()
+            .then(res => {
+              setPersons(res.data)
+            })
+          })
+          .catch(error => {
+            console.log(error)
+          })
+        )
       }
     })
 
-    if (found) {
-      personService
-        .create(nameObject)
-        .then(res => {
-          console.log(res);
-          setPersons(persons.concat(res.data))
-          setNewName('')
-          setNewNumber('')
-          setMessage(`Added ${nameObject.name}`)
-          setTimeout(() => {
-            setMessage(null)
-          }, 5000)
-          personService
-          .getAll()
-          .then(res => {
-            setPersons(res.data)
-          })
-        })
-        .catch(error => {
-          console.log(error)
-        })
-    }
   }
 
   const filterPersonList = () => {
