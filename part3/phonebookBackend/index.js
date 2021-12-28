@@ -6,6 +6,7 @@ const cors = require('cors')
 
 app.use(express.json())
 app.use(cors())
+app.use(express.static('build'))
 // app.use(morgan('tiny'))
 
 morgan.token('content', (req, res) => {
@@ -45,6 +46,10 @@ let persons = [
       "number": "39-23-6423122"
     }
 ]
+
+app.get('/', (request, response) => {
+    console.log('got it');
+})
 
 app.get('/api/persons', (request, response) => {
     response.json(persons)
@@ -105,7 +110,7 @@ app.put('/api/persons', (request, response) => {
     console.log('done put');
 })
 
-const PORT = 3001
+const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`)
+  console.log(`Server running on port ${PORT}`)
 })
