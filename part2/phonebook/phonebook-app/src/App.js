@@ -126,7 +126,8 @@ const App = () => {
     
     persons.forEach((person) => {
       if (person.name === nameObject.name && window.confirm(`${nameObject.name} is already added to phonebook, replace the old number with the new one?`)) {
-        return (personService
+        return (
+          personService
           .update(person.id, nameObject)
           .then(res => {
             console.log(res)
@@ -146,32 +147,30 @@ const App = () => {
             console.log(error)
           })
         )
-      } else {
-        return (
-          personService
-          .create(nameObject)
-          .then(res => {
-            console.log(res);
-            setPersons(persons.concat(res.data))
-            setNewName('')
-            setNewNumber('')
-            setMessage(`Added ${nameObject.name}`)
-            setTimeout(() => {
-              setMessage(null)
-            }, 5000)
-            personService
-            .getAll()
-            .then(res => {
-              setPersons(res.data)
-            })
-          })
-          .catch(error => {
-            console.log(error)
-          })
-        )
       }
     })
-
+    return (
+      personService
+      .create(nameObject)
+      .then(res => {
+        console.log(res);
+        setPersons(persons.concat(res.data))
+        setNewName('')
+        setNewNumber('')
+        setMessage(`Added ${nameObject.name}`)
+        setTimeout(() => {
+          setMessage(null)
+        }, 5000)
+        personService
+        .getAll()
+        .then(res => {
+          setPersons(res.data)
+        })
+      })
+      .catch(error => {
+        console.log(error)
+      })
+    )
   }
 
   const filterPersonList = () => {

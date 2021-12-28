@@ -101,6 +101,10 @@ app.post('/api/persons', (request, response) => {
     response.json(newPerson)
 })
 
+app.put('/api/persons', (request, response) => {
+    console.log('done put');
+})
+
 const PORT = 3001
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
