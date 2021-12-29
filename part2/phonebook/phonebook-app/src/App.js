@@ -125,7 +125,6 @@ const App = () => {
 
     const result = persons.filter(person => person.name === nameObject.name)
 
-
     if (result.length > 0) {
       if (window.confirm(`${nameObject.name} is already added to phonebook, replace the old number with the new one?`)) {
         personService
