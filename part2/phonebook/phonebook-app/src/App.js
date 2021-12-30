@@ -71,13 +71,13 @@ const Button = ({ onDelete }) => {
   )
 }
 
-const Notification = ({ message }) => {
+const Notification = ({ message, type }) => {
   if (message === null) {
     return null
   }
 
   return (
-    <div className='notification'>
+    <div className={`notification-${type}`}>
       {message}
     </div>
   )
@@ -90,6 +90,7 @@ const App = () => {
   const [newFilter, setNewFilter] = useState('')
   const [showAll, setShowAll] = useState(true)
   const [message, setMessage] = useState(null)
+  const [type, setType] = useState('positive')
 
   useEffect(() => {
     personService
@@ -166,7 +167,13 @@ const App = () => {
           })
         })
         .catch(error => {
-          console.log(error)
+          console.log(error.response.data.error)
+          setType('negative')
+          setMessage(error.response.data.error)
+          setTimeout(() => {
+            setMessage(null)
+            setType('positive')
+          }, 5000)
         })
     }
   }
@@ -179,7 +186,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={message}/>
+      <Notification message={message} type={type}/>
       <Filter handleFilter={handleFilterChange} />
 
       <h3> Add a new</h3>

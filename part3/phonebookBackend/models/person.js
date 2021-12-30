@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const uniqueValidator = require('mongoose-unique-validator');
 
 const url = process.env.MONGODB_URL
 
@@ -12,12 +13,14 @@ mongoose.connect(url)
         console.log('Error connecting to MongoDB', error.message);
     })
 
-    const noteSchema = new mongoose.Schema({
-        name: String,
-        number: String,
+    const personSchema = new mongoose.Schema({
+        name: { type: String, required: true, minlength: 3, unique: true },
+        number: { type: String, required: true, minlength: 8, unique: true },
     })
 
-    noteSchema.set('toJSON', {
+    personSchema.plugin(uniqueValidator)
+
+    personSchema.set('toJSON', {
         transform: (document, returnedObject) => {
             returnedObject.id = returnedObject._id.toString()
             delete returnedObject._id
@@ -25,4 +28,4 @@ mongoose.connect(url)
         }
     })
     
-    module.exports = mongoose.model('Person', noteSchema)
+    module.exports = mongoose.model('Person', personSchema)
