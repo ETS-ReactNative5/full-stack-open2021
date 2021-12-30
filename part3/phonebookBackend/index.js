@@ -22,7 +22,7 @@ app.use(morgan((tokens, req, res) => {
         tokens.res(req, res, 'content-length'), '-',
         tokens['response-time'](req, res), 'ms',
         tokens['content'](req, res),
-      ].join(' ')
+    ].join(' ')
 }))
 
 app.get('/api/persons', (request, response) => {
@@ -34,7 +34,7 @@ app.get('/api/persons', (request, response) => {
 app.get('/info', (request, response) => {
     Person.find({}).then(persons => {
         const personsLength = persons.length
-        const date = new Date();
+        const date = new Date()
         response.send(`<div>Phonebook has info for ${personsLength} people</div> <div>${date}</div>`)
     })
 })
@@ -43,7 +43,7 @@ app.get('/api/persons/:id', (request, response, next) => {
     Person.findById(request.params.id).then(person => {
         response.json(person)
     })
-    .catch(error => next(error))
+        .catch(error => next(error))
 })
 
 app.delete('/api/persons/:id', (request, response, next) => {
@@ -55,7 +55,7 @@ app.delete('/api/persons/:id', (request, response, next) => {
 })
 
 app.post('/api/persons', (request, response, next) => {
-        const body = request.body
+    const body = request.body
 
     if (!body.name || !body.number) {
         return response.status(400).json({
@@ -71,7 +71,7 @@ app.post('/api/persons', (request, response, next) => {
     newPerson.save().then(savedPerson => {
         response.json(newPerson)
     })
-    .catch(error => next(error))
+        .catch(error => next(error))
 })
 
 app.put('/api/persons/:id', (request, response, next) => {
@@ -90,16 +90,16 @@ app.put('/api/persons/:id', (request, response, next) => {
 })
 
 const unknownEndpoint = (request, response) => {
-    response.status(404).send({ error: 'unknown endpoint'})
+    response.status(404).send({ error: 'unknown endpoint' })
 }
 
 app.use(unknownEndpoint)
 
 const errorHandler = (error, request, response, next) => {
-    console.error(error.message);
+    console.error(error.message)
 
     if (error.name === 'CastError') {
-        return response.status(400).send({ error: 'malformatted id'})
+        return response.status(400).send({ error: 'malformatted id' })
     } else if (error.name === 'ValidationError') {
         return response.status(400).send({ error: error.message })
     }
@@ -109,7 +109,7 @@ const errorHandler = (error, request, response, next) => {
 
 app.use(errorHandler)
 
-const PORT = process.env.PORT 
+const PORT = process.env.PORT
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`)
+    console.log(`Server running on port ${PORT}`)
 })
