@@ -33,4 +33,40 @@ const favoriteBlog = (blogs) => {
     }
 }
 
-module.exports = { dummy, totalLikes, favoriteBlog }
+const mostBlogs = (blogs) => {
+    if (blogs.length === 0) {
+        return []
+    } else {
+        const authorNames = blogs.map(blog => blog.author)
+        const uniqueAuthorNames = [...new Set(authorNames)]
+
+        const mostBlogsObject = []
+        uniqueAuthorNames.forEach(name => {
+            const entry = {
+                author: name,
+                blogs: 0
+            }
+            mostBlogsObject.push(entry)
+        })
+
+        mostBlogsObject.forEach(element => {
+            const uniBlogs = blogs.filter(blog => element.author == blog.author)
+            element.blogs = uniBlogs.length
+        })
+
+        const nBlogs = mostBlogsObject.map(blog => {
+            return blog.blogs
+        })
+
+        const maxBlogs = nBlogs.reduce((max, blog) => {
+            return (blog > max) ? blog : max
+        }, 0)
+
+        const authorMostBlogs = mostBlogsObject.filter(blog => {
+            return blog.blogs === maxBlogs 
+        })
+        return authorMostBlogs[0]
+    }
+}
+
+module.exports = { dummy, totalLikes, favoriteBlog, mostBlogs }
