@@ -50,8 +50,8 @@ const mostBlogs = (blogs) => {
         })
 
         mostBlogsObject.forEach(element => {
-            const uniBlogs = blogs.filter(blog => element.author == blog.author)
-            element.blogs = uniBlogs.length
+            const uniLikes = blogs.filter(blog => element.author == blog.author)
+            element.blogs = uniLikes.length
         })
 
         const nBlogs = mostBlogsObject.map(blog => {
@@ -69,4 +69,45 @@ const mostBlogs = (blogs) => {
     }
 }
 
-module.exports = { dummy, totalLikes, favoriteBlog, mostBlogs }
+const mostLikes = (blogs) => {
+    if (blogs.length === 0) {
+        return []
+    } else {
+        const authorNames = blogs.map(blog => blog.author)
+        const uniqueAuthorNames = [...new Set(authorNames)]
+
+        const mostLikesObject = []
+        uniqueAuthorNames.forEach(name => {
+            const entry = {
+                author: name,
+                likes: 0
+            }
+            mostLikesObject.push(entry)
+        })
+
+        mostLikesObject.forEach(element => {
+            const uniLikes = blogs.filter(blog => element.author == blog.author)
+            let uniLikesNum = 0
+            uniLikes.forEach(uniLike => {
+                uniLikesNum += uniLike.likes
+            })
+            element.likes = uniLikesNum
+        })
+        console.log(mostLikesObject);
+
+        const nLikes = mostLikesObject.map(blog => {
+            return blog.likes
+        })
+
+        const maxLikes = nLikes.reduce((max, like) => {
+            return (like > max) ? like : max
+        }, 0)
+
+        const authorMostLikes = mostLikesObject.filter(blog => {
+            return blog.likes === maxLikes 
+        })
+        return authorMostLikes[0]
+    }
+}
+
+module.exports = { dummy, totalLikes, favoriteBlog, mostBlogs, mostLikes }
