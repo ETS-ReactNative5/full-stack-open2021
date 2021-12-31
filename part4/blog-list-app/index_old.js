@@ -8,7 +8,7 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 
-const mongoUrl = 'mongodb+srv://fed_fullstackopen:fullstackopenfede2021@cluster0.rrvn7.mongodb.net/blog-list-app?retryWrites=true&w=majority'
+const mongoUrl = ''
 mongoose.connect(mongoUrl)
     .then(() => {
         console.log('Connected to MongoDB');
