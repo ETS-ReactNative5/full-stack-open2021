@@ -30,11 +30,11 @@ notesRouter.get('/:id', async (request, response) => {
 notesRouter.post('/', async (request, response) => {
     const body = request.body
 
-    // if(!body.content) {
-    //     return response.status(400).json({
-    //         error: 'content missing'
-    //     })
-    // }
+    if(!body.content) {
+        return response.status(400).json({
+            error: 'content missing'
+        })
+    }
 
     const note = new Note ({
         content: body.content,

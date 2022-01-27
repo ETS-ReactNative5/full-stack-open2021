@@ -26,7 +26,7 @@ test('Create a new blog entry', async () => {
     const newPost = {
         title: 'Test 3',
         author: 'Sophia',
-        'url': 'https://twitter.com',
+        url: 'https://twitter.com',
         likes: 10,
     }
 
@@ -47,7 +47,7 @@ test('Blog entry has no like property defined', async () => {
     const newPost = {
         title: 'Test 4',
         author: 'Sophia',
-        'url': 'https://twitter.com',
+        url: 'https://twitter.com',
     }
 
     await api
@@ -61,6 +61,30 @@ test('Blog entry has no like property defined', async () => {
     
         const lastBlog = allBlogs.filter(blog => blog.title === 'Test 4')
         expect(lastBlog[0].likes).toBe(0)
+})
+
+test('Missing title', async () => {
+    const newPost = {
+        author: 'Bob',
+        url: 'https://twitter.com',
+    }
+
+    await api
+        .post('/api/blogs')
+        .send(newPost)
+        .expect(400)
+})
+
+test('Missing url', async () => {
+    const newPost = {
+        title: 'Test 5',
+        author: 'Bob',
+    }
+
+    await api
+        .post('/api/blogs')
+        .send(newPost)
+        .expect(400)
 })
 
 afterAll(() => {

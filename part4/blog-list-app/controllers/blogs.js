@@ -19,6 +19,12 @@ blogsRouter.post('/', async (request, response) => {
 
     const requestContent = request.body
 
+    if(!requestContent.title || !requestContent.url) {
+        return response.status(400).json({
+            error: 'title or url missing'
+        })
+    }
+
     if (!requestContent.likes) {
         const newBody = {
             title: request.body.title,
