@@ -17,6 +17,11 @@ test('Blog list app returns the correct amount of blog posts', async () => {
     expect(response.body).toHaveLength(2)
 })
 
+test('There is a property called id', async () => {
+    const response = await api.get('/api/blogs')
+    expect(response.body[0].id).toBeDefined()
+})
+
 afterAll(() => {
     mongoose.connection.close()
 })
