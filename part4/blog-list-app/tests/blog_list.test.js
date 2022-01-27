@@ -22,6 +22,27 @@ test('There is a property called id', async () => {
     expect(response.body[0].id).toBeDefined()
 })
 
+test('Create a new blog entry', async () => {
+    const newPost = {
+        title: 'Test 3',
+        author: 'Sophia',
+        'url': 'https://twitter.com',
+        likes: 10,
+    }
+
+    await api
+        .post('/api/blogs')
+        .send(newPost)
+        .expect(201)
+        .expect('Content-Type', /application\/json/)
+
+    const allNotes = await helper.blogsInDb()
+    expect(allNotes).toHaveLength(helper.initialBlogs.length + 1)
+
+    const allNotesContent = allNotes.map(note => note.title)
+    expect(allNotesContent).toContain('Test 3')
+})
+
 afterAll(() => {
     mongoose.connection.close()
 })
