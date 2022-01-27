@@ -36,11 +36,31 @@ test('Create a new blog entry', async () => {
         .expect(201)
         .expect('Content-Type', /application\/json/)
 
-    const allNotes = await helper.blogsInDb()
-    expect(allNotes).toHaveLength(helper.initialBlogs.length + 1)
+    const allBlogs = await helper.blogsInDb()
+    expect(allBlogs).toHaveLength(helper.initialBlogs.length + 1)
 
-    const allNotesContent = allNotes.map(note => note.title)
-    expect(allNotesContent).toContain('Test 3')
+    const allBlogsTitle = allBlogs.map(note => note.title)
+    expect(allBlogsTitle).toContain('Test 3')
+})
+
+test('Blog entry has no like property defined', async () => {
+    const newPost = {
+        title: 'Test 4',
+        author: 'Sophia',
+        'url': 'https://twitter.com',
+    }
+
+    await api
+        .post('/api/blogs')
+        .send(newPost)
+        .expect(201)
+        .expect('Content-Type', /application\/json/)
+
+        const allBlogs = await helper.blogsInDb()
+        expect(allBlogs).toHaveLength(helper.initialBlogs.length + 1)
+    
+        const lastBlog = allBlogs.filter(blog => blog.title === 'Test 4')
+        expect(lastBlog[0].likes).toBe(0)
 })
 
 afterAll(() => {

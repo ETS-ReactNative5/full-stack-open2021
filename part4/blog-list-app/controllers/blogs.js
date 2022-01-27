@@ -6,7 +6,6 @@ blogsRouter.get('/', async (request, response) => {
     const blogs = await Blog.find({})
     response.json(blogs)
     
-    
     // Blog.find({})
     // .then(blogs => {
     //     response.json(blogs)
@@ -17,10 +16,25 @@ blogsRouter.get('/', async (request, response) => {
 })
 
 blogsRouter.post('/', async (request, response) => {
+
+    const requestContent = request.body
+
+    if (!requestContent.likes) {
+        const newBody = {
+            title: request.body.title,
+            author: request.body.author,
+            url: request.body.url,
+            likes: 0
+        }
+        const blog = new Blog(newBody)
+        const savedBlog = await blog.save()
+        response.status(201).json(savedBlog)
+    } else {
+        const blog = new Blog(request.body)
+        const savedBlog = await blog.save()
+        response.status(201).json(savedBlog)
+    }
     
-    const blog = new Blog(request.body)
-    const savedBlog = await blog.save()
-    response.status(201).json(savedBlog)
 
     // blog.save()
     //     .then(result => {
