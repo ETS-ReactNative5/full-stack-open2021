@@ -100,6 +100,26 @@ test('Check if a blog post is successfully deleted', async() => {
 
 })
 
+test('Check if I can update a blog post', async() => {
+    const initialPosts = await helper.blogsInDb()
+    const postToUpdate = initialPosts[0]
+    const newPost = {
+        title: 'Test Update',
+        author: 'Bob',
+        url: 'https://facebook.com',
+        likes: 20,
+    }
+
+    await api
+        .put(`/api/blogs/${postToUpdate.id}`)
+        .send(newPost)
+        .expect(200)
+    
+    const finalPosts = await helper.blogsInDb()
+    console.log(finalPosts);
+    expect(finalPosts[0].title).toBe('Test Update')
+})
+
 afterAll(() => {
     mongoose.connection.close()
 })
