@@ -7,3 +7,51 @@ Content-Type: application/json
     "password": "sophiasamuel",
     "posts": []
 }
+###
+POST http://localhost:3003/api/users/
+Content-Type: application/json
+
+{
+    "username": "fedpre",
+    "name": "Federico",
+    "password": "sophiasamuel",
+    "posts": []
+}
+###
+POST http://localhost:3003/api/users/
+Content-Type: application/json
+
+{
+    "name": "luca",
+    "password": "fdsfds",
+    "posts": []
+}
+### 
+POST http://localhost:3003/api/users/
+Content-Type: application/json
+
+{
+    "username": "cri",
+    "name": "Cristina",
+    "posts": []
+}
+###
+POST http://localhost:3003/api/users/
+Content-Type: application/json
+
+{
+    "username": "re",
+    "name": "Reginald",
+    "password": "dfsf",
+    "posts": []
+}
+###
+POST http://localhost:3003/api/users/
+Content-Type: application/json
+
+{
+    "username": "reginald",
+    "name": "Reginald",
+    "password": "d",
+    "posts": []
+}
