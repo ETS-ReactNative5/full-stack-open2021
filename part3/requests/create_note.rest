@@ -1,8 +1,9 @@
 POST http://localhost:3001/api/notes
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZlZGVyaWNvIHByZWdub2xhdG8iLCJpZCI6IjYxZmQ0ZDA3ZWZlYzY2MDkxY2I1MGRiYSIsImlhdCI6MTY0Mzk5MTU1Mn0.7ci5tfeQzytvqnFb4YovJlfBexcN_ZvfDroaHaJVLac
 
 {
-    "content": "VS Code is pretty awesome",
+    "content": "Single page app using token authentication",
     "important": false
 }
 

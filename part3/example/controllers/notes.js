@@ -1,8 +1,15 @@
 const notesRouter = require('express').Router()
-// const { findByIdAndRemove } = require('../models/note')
-// const { request } = require('../app')
 const Note = require('../models/note')
 const User = require('../models/user')
+const jwt = require('jsonwebtoken')
+
+const getTokenFrom = request => {
+    const authorization = request.get('authorization')
+    if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
+        return authorization.substring(7)
+    }
+    return null
+}
 
 notesRouter.get('/', async (request, response) => {
     const notes = await Note
@@ -11,16 +18,6 @@ notesRouter.get('/', async (request, response) => {
 })
 
 notesRouter.get('/:id', async (request, response) => {
-    // Note.findById(request.params.id)
-    //     .then(note => {
-    //         if (note) {
-    //             response.json(note)
-    //         } else {
-    //             response.status(404).end()
-    //         }
-    //     })
-    //     .catch(error => next(error))
-
     const note = await Note.findById(request.params.id)
     if (note) {
         response.json(note)
@@ -31,14 +28,18 @@ notesRouter.get('/:id', async (request, response) => {
 
 notesRouter.post('/', async (request, response) => {
     const body = request.body
+    const token = getTokenFrom(request)
+    const decodedToken = jwt.verify(token, process.env.SECRET)
+    if (!decodedToken.id) {
+        return response.status(401).json({ error: 'token missing or invalid' })
+    }
+    const user = await User.findById(decodedToken.id)
 
     if(!body.content) {
         return response.status(400).json({
             error: 'content missing'
         })
     }
-
-    const user = await User.findById(body.userId)
 
     const note = new Note ({
         content: body.content,
@@ -55,12 +56,6 @@ notesRouter.post('/', async (request, response) => {
 })
 
 notesRouter.delete('/:id', async (request, response) => {
-    // Note.findByIdAndRemove(request.params.id)
-    //     .then(() => {
-    //         response.status(204).end()
-    //     })
-    //     .catch(error => next(error))
-
     await Note.findByIdAndRemove(request.params.id)
     response.status(204).end()
 
