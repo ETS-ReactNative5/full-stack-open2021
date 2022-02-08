@@ -1,0 +1,45 @@
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+    "title": "Test 1",
+    "author": "Federico Pregnolato",
+    "url": "https://twitter.com",
+    "likes": 50,
+    "userId": "61fea7768bb7f71687f028b5"
+}
+###
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+    "title": "Test 2",
+    "author": "Federico Pregnolato",
+    "url": "https://twitter.com",
+    "likes": 15,
+    "userId": "61fea7768bb7f71687f028b5"
+}
+###
+
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+    "title": "Test 5",
+    "author": "Federico Pregnolato",
+    "url": "https://twitter.com",
+    "likes": 67,
+    "userId": "6202a9036c4dfc12345b9ebb"
+}
+###
+
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+    "title": "Test 6",
+    "author": "Federico Pregnolato",
+    "url": "https://twitter.com",
+    "likes": 70
+}
+###
