@@ -28,19 +28,23 @@ test('Create a new blog entry', async () => {
         author: 'Sophia',
         url: 'https://twitter.com',
         likes: 10,
-    }
+    }    
 
-    const loginUser = {
-        
-    }
-
+    let token
     await api
         .post('/api/login')
-        .send(loginUser)
-
+        .send({
+            username: 'fedpre',
+            password: 'sophiasamuel',
+        })
+        .expect(200)
+        .then((res) => {
+            token = res.body.token
+        })
+  
     await api
         .post('/api/blogs')
-        .set('Authorization', helper.getToken())
+        .set('Authorization', 'bearer ' + token)
         .send(newPost)
         .expect(201)
         .expect('Content-Type', /application\/json/)
@@ -59,8 +63,22 @@ test('Blog entry has no like property defined', async () => {
         url: 'https://twitter.com',
     }
 
+    let token
+    await api
+        .post('/api/login')
+        .send({
+            username: 'fedpre',
+            password: 'sophiasamuel',
+        })
+        .expect(200)
+        .then((res) => {
+            token = res.body.token
+        })
+  
+
     await api
         .post('/api/blogs')
+        .set('Authorization', 'bearer ' + token)
         .send(newPost)
         .expect(201)
         .expect('Content-Type', /application\/json/)
@@ -100,8 +118,21 @@ test('Check if a blog post is successfully deleted', async() => {
     const initialPosts = await helper.blogsInDb()
     const postToDelete = initialPosts[0]
 
+    let token
+    await api
+        .post('/api/login')
+        .send({
+            username: 'fedpre',
+            password: 'sophiasamuel',
+        })
+        .expect(200)
+        .then((res) => {
+            token = res.body.token
+        })
+
     await api
         .delete(`/api/blogs/${postToDelete.id}`)
+        .set('Authorization', 'bearer ' + token)
         .expect(204)
 
     const postsAtEnd = await helper.blogsInDb()
