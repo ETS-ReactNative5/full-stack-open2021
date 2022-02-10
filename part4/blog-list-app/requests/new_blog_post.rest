@@ -59,7 +59,7 @@ Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZlZ
 
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZlZHByZSIsImlkIjoiNjFmZWE3NzY4YmI3ZjcxNjg3ZjAyOGI1IiwiaWF0IjoxNjQ0NDg3MTcyfQ.eCN_7C2M3-XHmNaix7uRmeXkj497IIB3gE1cHvRcCoE
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZlZHByZSIsImlkIjoiNjFmZWE3NzY4YmI3ZjcxNjg3ZjAyOGI1IiwiaWF0IjoxNjQ0NDg5NTY3fQ.PDB-_I4olL0kVrdH1YjgBBpdXD0MWpuu0GsUwLBzgu0
 
 {
     "title": "Test token authentication middleware 2",
