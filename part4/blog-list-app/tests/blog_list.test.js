@@ -30,8 +30,17 @@ test('Create a new blog entry', async () => {
         likes: 10,
     }
 
+    const loginUser = {
+        
+    }
+
+    await api
+        .post('/api/login')
+        .send(loginUser)
+
     await api
         .post('/api/blogs')
+        .set('Authorization', helper.getToken())
         .send(newPost)
         .expect(201)
         .expect('Content-Type', /application\/json/)
