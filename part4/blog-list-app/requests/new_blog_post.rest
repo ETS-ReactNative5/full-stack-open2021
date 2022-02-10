@@ -43,3 +43,27 @@ Content-Type: application/json
     "likes": 70
 }
 ###
+
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZlZHByZSIsImlkIjoiNjFmZWE3NzY4YmI3ZjcxNjg3ZjAyOGI1IiwiaWF0IjoxNjQ0NDg1NjY5fQ.ftEFBm04zniIHIDv998z5KX4XPmpw-Izj64J_Pnhs94
+
+{
+    "title": "Test token authentication",
+    "author": "Federico Pregnolato The Best",
+    "url": "https://fedpregnolato.io",
+    "likes": 170
+}
+
+###
+
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImZlZHByZSIsImlkIjoiNjFmZWE3NzY4YmI3ZjcxNjg3ZjAyOGI1IiwiaWF0IjoxNjQ0NDg3MTcyfQ.eCN_7C2M3-XHmNaix7uRmeXkj497IIB3gE1cHvRcCoE
+
+{
+    "title": "Test token authentication middleware 2",
+    "author": "Fede",
+    "url": "https://fedpregnolato.io",
+    "likes": 15
+}
