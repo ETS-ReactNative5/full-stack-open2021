@@ -21,6 +21,15 @@ const App = () => {
     )
   }, [])
 
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+      // blogService.setToken(user.token) <-- insert after implement functionality to create a blog post
+    }
+  }, [])
+
   const findUserBlogs = (user) => {
     const token_decoded = jwt_decode(user.token)
     const userLog = users.filter(u => u.id === token_decoded.id)
@@ -33,6 +42,9 @@ const App = () => {
       const user = await loginService.login({
         username, password
       })
+      window.localStorage.setItem(
+        'loggedBlogappUser', JSON.stringify(user)
+      )
       setUser(user)
       setUsername('')
       setPassword('')
@@ -44,6 +56,12 @@ const App = () => {
       }, 5000)
     }
   }
+
+  const clearLocStor = (event) => {
+    event.preventDefault()
+    window.localStorage.clear()
+    setUser(null)
+  } 
 
   return (
     <div>
@@ -60,7 +78,7 @@ const App = () => {
         <BlogList 
           blogs={blogs}
           userLogged={user}
-          users={users}
+          clearLocStor={clearLocStor}
         />      
       }
     </div>
