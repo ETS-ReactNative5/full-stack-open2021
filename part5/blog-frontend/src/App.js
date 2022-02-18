@@ -5,6 +5,7 @@ import loginService from './services/login'
 import usersService from './services/users'
 import './index.css'
 import BlogList from './components/BlogList'
+import jwt_decode from 'jwt-decode'
 
 const App = () => {
   const [errorMessage, setErrorMessage] = useState(null) 
@@ -21,7 +22,8 @@ const App = () => {
   }, [])
 
   const findUserBlogs = (user) => {
-    const userLog = users.filter(u => u.username === user.username)
+    const token_decoded = jwt_decode(user.token)
+    const userLog = users.filter(u => u.id === token_decoded.id)
     return userLog[0].blogs
   }
 
