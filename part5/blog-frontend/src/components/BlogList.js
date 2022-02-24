@@ -1,5 +1,6 @@
 import React from 'react'
 import Blog from './Blog'
+import jwt_decode from 'jwt-decode'
 
 const BlogList = ({ blogs, updateLike, user, deleteBlogPost }) => {
 
@@ -13,13 +14,24 @@ const BlogList = ({ blogs, updateLike, user, deleteBlogPost }) => {
     return 0
   }
   const sortedBlogs = blogs.sort(compare)
+  const token_decoded = jwt_decode(user.token)
 
+  const userBlogs = sortedBlogs.map((blog) => {
+    if (blog.user) {
+      if (blog.user.id === token_decoded.id) {
+        return blog
+      }
+    }
+    return null
+  })
   return (
     <div>
-      {sortedBlogs.map(blog => (
-        <div key={blog.id}>
+      {userBlogs.map(blog => (
+        blog !== null 
+        ? <div key={blog.id}>
           <Blog key={blog.id} blog={blog} updateLike={updateLike} user={user} deleteBlogPost={deleteBlogPost}/>
         </div>
+        : ''
       ))}
     </div>
   )

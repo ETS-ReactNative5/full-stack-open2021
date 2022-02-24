@@ -35,11 +35,11 @@ const App = () => {
     }
   }, [])
 
-  const findUserBlogs = (user) => {
-    const token_decoded = jwt_decode(user.token)
-    const userLog = users.filter(u => u.id === token_decoded.id)
-    return userLog[0].blogs
-  }
+  useEffect(() => {
+    blogService.getAll().then(blogs => 
+      setBlogs(blogs)  
+    )
+  })
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -54,7 +54,6 @@ const App = () => {
       setUser(user)
       setUsername('')
       setPassword('')
-      setBlogs(findUserBlogs(user))
 
     } catch (exception) {
       setErrorMessage('Wrong Credentials')
