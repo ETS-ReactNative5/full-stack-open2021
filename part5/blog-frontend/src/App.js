@@ -4,11 +4,10 @@ import ErrorMessage from './components/ErrorMessage'
 import ValidMessage from './components/ValidMessage'
 import CreateForm from './components/CreateForm'
 import loginService from './services/login'
-import usersService from './services/users'
+
 import blogService from './services/blogs'
 import './index.css'
 import BlogList from './components/BlogList'
-import jwt_decode from 'jwt-decode'
 import Togglable from './components/Togglable'
 
 const App = () => {
@@ -18,14 +17,8 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-  const [users, setUsers] = useState(null)
   const blogFormRef = useRef()
 
-  useEffect(() => {
-    usersService.getAllUsers().then(users => 
-      setUsers( users )
-    )
-  }, [])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
