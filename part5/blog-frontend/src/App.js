@@ -55,6 +55,7 @@ const App = () => {
       setUsername('')
       setPassword('')
       setBlogs(findUserBlogs(user))
+
     } catch (exception) {
       setErrorMessage('Wrong Credentials')
       setUsername('')
@@ -83,7 +84,17 @@ const App = () => {
 
   const updateBlogLikes = async (blogPost, id) => {
     await blogService.updateLike(blogPost, id)
-    setBlogs(findUserBlogs(user))
+  }
+
+  const deleteBlogPost = async (id, user) => {
+    await blogService.deleteBlog({
+      id: id,
+      user: user
+    })
+    setValidMessage(`The blog entry has been deleted`)
+    setTimeout(() => {
+      setValidMessage(null)
+    }, 5000)
   }
 
   return (
@@ -108,7 +119,7 @@ const App = () => {
             <CreateForm createBlog={createBlog} user={user}/>
           </Togglable>
               <h2>blogs</h2>
-              <BlogList blogs={blogs} updateLike={updateBlogLikes} user={user}/>      
+              <BlogList blogs={blogs} updateLike={updateBlogLikes} user={user} deleteBlogPost={deleteBlogPost}/>      
         </div>
       }
     </div>

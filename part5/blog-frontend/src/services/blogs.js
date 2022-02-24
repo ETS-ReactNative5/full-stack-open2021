@@ -26,5 +26,11 @@ const updateLike = async (blogPost, id) => {
   return response.data
 }
 
+const deleteBlog = async (infoObj) => {
+  const response = await axios.delete(`${baseUrl}/${infoObj.id}`, { data: { source: infoObj } })
+  return response.data
+}
+
+
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { getAll, createBlogEntry, setToken, updateLike }
+export default { getAll, createBlogEntry, setToken, updateLike, deleteBlog }
