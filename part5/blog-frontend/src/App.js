@@ -1,13 +1,15 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import LoginForm from './components/LoginForm'
 import ErrorMessage from './components/ErrorMessage'
-
+import ValidMessage from './components/ValidMessage'
+import CreateForm from './components/CreateForm'
 import loginService from './services/login'
 import usersService from './services/users'
 import blogService from './services/blogs'
 import './index.css'
 import BlogList from './components/BlogList'
 import jwt_decode from 'jwt-decode'
+import Togglable from './components/Togglable'
 
 const App = () => {
   const [errorMessage, setErrorMessage] = useState(null)
@@ -20,6 +22,7 @@ const App = () => {
   const [newTitle, setNewTitle] = useState('')
   const [newAuthor, setNewAuthor] = useState('')
   const [newUrl, setNewUrl] = useState('')
+  const blogFormRef = useRef()
 
   useEffect(() => {
     usersService.getAllUsers().then(users => 
@@ -64,7 +67,7 @@ const App = () => {
       setUser(user)
       setUsername('')
       setPassword('')
-      setBlogs(findUserBlogs(user))
+      setBlogs(blogs.concat(findUserBlogs(user)))
     } catch (exception) {
       setErrorMessage('Wrong Credentials')
       setUsername('')
@@ -95,11 +98,11 @@ const App = () => {
     setNewAuthor('')
     setNewUrl('')
     setValidMessage(`A new blog ${newBlog.title} ${newBlog.author} added`)
+    blogFormRef.current.toggleVisibility()
     setTimeout(() => {
       setValidMessage(null)
     }, 5000)
   }
-
   return (
     <div>
       <ErrorMessage message={errorMessage}/>
@@ -111,20 +114,35 @@ const App = () => {
         password={password}
         setPassword={setPassword}
       />
-      : 
-        <BlogList 
-          blogs={blogs}
-          userLogged={user}
-          clearLocStor={clearLocStor}
-          createBlog={createBlog}
-          newTitle={newTitle}
-          handleTitleChange={handleTitleChange}
-          newAuthor={newAuthor}
-          handleAuthorChange={handleAuthorChange}
-          newUrl={newUrl}
-          handleUrlChange={handleUrlChange}
-          validMessage={validMessage}
-        />      
+      : <div>
+          <ValidMessage message={validMessage}/>
+          <p>{user.name} logged in</p>
+          <button onClick={clearLocStor}>log out</button>
+          <Togglable buttonLabel='New note' ref={blogFormRef}>
+            <h2>create new</h2>
+            <CreateForm 
+              createBlog={createBlog}
+              newTitle={newTitle}
+              newAuthor={newAuthor}
+              newUrl={newUrl}
+              handleTitleChange={handleTitleChange}
+              handleAuthorChange={handleAuthorChange}
+              handleUrlChange={handleUrlChange}
+            />
+          </Togglable>
+              <h2>blogs</h2>
+              <BlogList 
+                blogs={blogs}
+                createBlog={createBlog}
+                newTitle={newTitle}
+                handleTitleChange={handleTitleChange}
+                newAuthor={newAuthor}
+                handleAuthorChange={handleAuthorChange}
+                newUrl={newUrl}
+                handleUrlChange={handleUrlChange}
+                validMessage={validMessage}
+              />      
+      </div>
       }
     </div>
   )
