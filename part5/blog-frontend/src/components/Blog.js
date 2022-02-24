@@ -1,6 +1,7 @@
 import { React, useState } from 'react'
+import jwt_decode from 'jwt-decode'
 
-const Blog = ({blog}) => {
+const Blog = ({ blog, updateLike, user }) => {
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -14,10 +15,20 @@ const Blog = ({blog}) => {
   }
 
   const toggleView = () => {
-    console.log(blog);
     setView(!view)
   }
 
+  const updateBlogLike = (event) => {
+    event.preventDefault()
+    const token_decoded = jwt_decode(user.token)
+    updateLike({
+      user: token_decoded.id,
+      likes: blog.likes + 1,
+      author: blog.author,
+      title: blog.title,
+      url: blog.url,
+    }, blog.id)
+  }
 
   return (
     <>
@@ -26,7 +37,7 @@ const Blog = ({blog}) => {
         <button onClick={toggleView}>{view ? 'hide' : 'view'}</button>
         <div style={hideShow}>
           <div>{blog.url}</div>
-          <div>likes {blog.likes} <button onClick={() => console.log('like it baby')}>like</button></div>
+          <div>likes {blog.likes} <button onClick={updateBlogLike}>like</button></div>
           <div>{blog.author}</div>
         </div>
       </div>  

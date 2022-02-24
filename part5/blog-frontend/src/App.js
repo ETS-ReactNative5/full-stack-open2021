@@ -19,7 +19,6 @@ const App = () => {
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const [users, setUsers] = useState(null)
-
   const blogFormRef = useRef()
 
   useEffect(() => {
@@ -81,6 +80,12 @@ const App = () => {
       setValidMessage(null)
     }, 5000)
   }
+
+  const updateBlogLikes = async (blogPost, id) => {
+    await blogService.updateLike(blogPost, id)
+    setBlogs(findUserBlogs(user))
+  }
+
   return (
     <div>
       <ErrorMessage message={errorMessage}/>
@@ -103,7 +108,7 @@ const App = () => {
             <CreateForm createBlog={createBlog} user={user}/>
           </Togglable>
               <h2>blogs</h2>
-              <BlogList blogs={blogs}/>      
+              <BlogList blogs={blogs} updateLike={updateBlogLikes} user={user}/>      
         </div>
       }
     </div>
