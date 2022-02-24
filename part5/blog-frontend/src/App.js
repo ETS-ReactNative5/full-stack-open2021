@@ -55,7 +55,7 @@ const App = () => {
       setUser(user)
       setUsername('')
       setPassword('')
-      setBlogs(blogs.concat(findUserBlogs(user)))
+      setBlogs(findUserBlogs(user))
     } catch (exception) {
       setErrorMessage('Wrong Credentials')
       setUsername('')
@@ -100,7 +100,7 @@ const App = () => {
           </div>
           <Togglable buttonLabel='Create new blog' ref={blogFormRef}>
             <h2>create new</h2>
-            <CreateForm createBlog={createBlog}/>
+            <CreateForm createBlog={createBlog} user={user}/>
           </Togglable>
               <h2>blogs</h2>
               <BlogList blogs={blogs}/>      
