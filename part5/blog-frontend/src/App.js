@@ -19,9 +19,7 @@ const App = () => {
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const [users, setUsers] = useState(null)
-  const [newTitle, setNewTitle] = useState('')
-  const [newAuthor, setNewAuthor] = useState('')
-  const [newUrl, setNewUrl] = useState('')
+
   const blogFormRef = useRef()
 
   useEffect(() => {
@@ -43,16 +41,6 @@ const App = () => {
     const userLog = users.filter(u => u.id === token_decoded.id)
     return userLog[0].blogs
   }
-
-  const handleTitleChange = (event) => {
-    setNewTitle(event.target.value)
-  } 
-  const handleAuthorChange = (event) => {
-    setNewAuthor(event.target.value)
-  } 
-  const handleUrlChange = (event) => {
-    setNewUrl(event.target.value)
-  } 
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -84,20 +72,10 @@ const App = () => {
     setUser(null)
   } 
 
-  const createBlog = async (event) => {
-    event.preventDefault()
-    const newBlog = {
-      title: newTitle,
-      author: newAuthor,
-      url: newUrl
-    }
-
-    const response = await blogService.createBlogEntry(newBlog)
+  const createBlog = async (blogObject) => {
+    const response = await blogService.createBlogEntry(blogObject)
     setBlogs(blogs.concat(response))
-    setNewTitle('')
-    setNewAuthor('')
-    setNewUrl('')
-    setValidMessage(`A new blog ${newBlog.title} ${newBlog.author} added`)
+    setValidMessage(`A new blog ${blogObject.title} ${blogObject.author} added`)
     blogFormRef.current.toggleVisibility()
     setTimeout(() => {
       setValidMessage(null)
@@ -116,33 +94,17 @@ const App = () => {
       />
       : <div>
           <ValidMessage message={validMessage}/>
-          <p>{user.name} logged in</p>
-          <button onClick={clearLocStor}>log out</button>
-          <Togglable buttonLabel='New note' ref={blogFormRef}>
+          <div>
+            <p>{user.name} logged in</p>
+            <button onClick={clearLocStor}>log out</button>
+          </div>
+          <Togglable buttonLabel='Create new blog' ref={blogFormRef}>
             <h2>create new</h2>
-            <CreateForm 
-              createBlog={createBlog}
-              newTitle={newTitle}
-              newAuthor={newAuthor}
-              newUrl={newUrl}
-              handleTitleChange={handleTitleChange}
-              handleAuthorChange={handleAuthorChange}
-              handleUrlChange={handleUrlChange}
-            />
+            <CreateForm createBlog={createBlog}/>
           </Togglable>
               <h2>blogs</h2>
-              <BlogList 
-                blogs={blogs}
-                createBlog={createBlog}
-                newTitle={newTitle}
-                handleTitleChange={handleTitleChange}
-                newAuthor={newAuthor}
-                handleAuthorChange={handleAuthorChange}
-                newUrl={newUrl}
-                handleUrlChange={handleUrlChange}
-                validMessage={validMessage}
-              />      
-      </div>
+              <BlogList blogs={blogs}/>      
+        </div>
       }
     </div>
   )
