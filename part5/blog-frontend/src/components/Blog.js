@@ -2,6 +2,12 @@ import { React, useState } from 'react'
 import jwt_decode from 'jwt-decode'
 
 const Blog = ({ blog, updateLike, user, deleteBlogPost }) => {
+  let token_decoded
+  if (user) {
+    token_decoded = jwt_decode(user.token)
+  } else {
+    token_decoded = null
+  }
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -20,9 +26,8 @@ const Blog = ({ blog, updateLike, user, deleteBlogPost }) => {
 
   const updateBlogLike = (event) => {
     event.preventDefault()
-    const token_decoded = jwt_decode(user.token)
     updateLike({
-      user: token_decoded.id,
+      user: user ? token_decoded.id : null,
       likes: blog.likes + 1,
       author: blog.author,
       title: blog.title,
@@ -46,7 +51,7 @@ const Blog = ({ blog, updateLike, user, deleteBlogPost }) => {
         <button onClick={toggleView}>{view ? 'hide' : 'view'}</button>
         <div style={hideShow}>
           <div>{blog.url}</div>
-          <div>likes {blog.likes} <button onClick={updateBlogLike}>like</button></div>
+          <div>likes {blog.likes} <button onClick={updateBlogLike} data-testid="#like">like</button></div>
           <div>{blog.author}</div>
           <button onClick={deletePost}>remove</button>
         </div>

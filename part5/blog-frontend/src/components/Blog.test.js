@@ -53,3 +53,28 @@ test("blog's url and number of likes are shown after pushing the button", () => 
     expect(url).toBeDefined()
     expect(likes).toBeDefined()
 })
+
+test('check if the like button works twice', () => {
+    const blog = {
+        likes: '10',
+        author:'federico',
+        title: 'component testing 1',
+        url: 'https://fedpregnolato.io',
+    }
+    const mockLike = jest.fn()
+
+    const content = render(
+        <Blog blog={blog} updateLike={mockLike} />
+    )
+
+    const buttonView = screen.getByText('view')
+    userEvent.click(buttonView)
+
+    const buttonLike = content.getByTestId('#like')
+    console.log(buttonLike);
+    userEvent.click(buttonLike)
+    userEvent.click(buttonLike)
+
+    expect(mockLike.mock.calls).toHaveLength(2)
+
+})
