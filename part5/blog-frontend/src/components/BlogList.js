@@ -2,7 +2,7 @@ import React from 'react'
 import Blog from './Blog'
 import jwt_decode from 'jwt-decode'
 
-const BlogList = ({ blogs, updateLike, user, deleteBlogPost }) => {
+const BlogList = ({ blogs, updateLike, user, deleteBlogPost, }) => {
 
   const compare = (a, b) => {
     if (a.likes < b.likes) {

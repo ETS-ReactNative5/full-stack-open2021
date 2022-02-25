@@ -41,8 +41,8 @@ const Blog = ({ blog, updateLike, user, deleteBlogPost }) => {
 
   return (
     <>
-      <div style={blogStyle}>
-        {blog.title}
+      <div style={blogStyle} className='blog'>
+        {blog.title} {blog.author}
         <button onClick={toggleView}>{view ? 'hide' : 'view'}</button>
         <div style={hideShow}>
           <div>{blog.url}</div>
