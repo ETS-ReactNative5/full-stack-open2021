@@ -22,7 +22,7 @@ const App = () => {
         setNotes(initialNotes)
       })
   }, [])
-  console.log('render', notes.length, 'notes');
+  console.log('render', notes.length, 'notes')
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser')
@@ -35,14 +35,14 @@ const App = () => {
 
   const toggleImportanceOf = (id) => {
     const note = notes.find(note => note.id === id)
-    const changedNote = {...note, important: !note.important}
+    const changedNote = { ...note, important: !note.important }
 
     noteService
       .update(id, changedNote)
       .then(returnedNote => {
         setNotes(notes.map(note => note.id !== id ? note : returnedNote))
       })
-      .catch(error => {
+      .catch(() => {
         setErrorMessage(
           `Note '${note.content}' was already removed from server`
         )
@@ -77,7 +77,7 @@ const App = () => {
       setUser(user)
 
     } catch (exception) {
-      console.log(exception);
+      console.log(exception)
       setErrorMessage('Wrong credentials')
       setTimeout(() => {
         setErrorMessage(null)
@@ -100,7 +100,7 @@ const App = () => {
         <LoginForm login={handleLogin}/>
       </Togglable>
 
-      { user === null ? '' : 
+      { user === null ? '' :
         <div>
           <p>{user.name} logged-in</p>
           <button onClick={logout}> logout </button>
@@ -117,10 +117,10 @@ const App = () => {
         </button>
       </div>
       <ul>
-        {notesToShow.map(note => 
-          <Note 
+        {notesToShow.map(note =>
+          <Note
             key={note.id}
-            note={note} 
+            note={note}
             toggleImportance={() => toggleImportanceOf(note.id)}
           />
         )}
