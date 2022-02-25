@@ -7,13 +7,13 @@ const CreateForm = ({ createBlog, user }) => {
 
   const handleTitleChange = (event) => {
     setNewTitle(event.target.value)
-  } 
+  }
   const handleAuthorChange = (event) => {
     setNewAuthor(event.target.value)
-  } 
+  }
   const handleUrlChange = (event) => {
     setNewUrl(event.target.value)
-  } 
+  }
 
   const getBlog = (event) => {
     event.preventDefault()
@@ -30,36 +30,36 @@ const CreateForm = ({ createBlog, user }) => {
 
   return (
     <div>
-        <form onSubmit={getBlog} style={{ display: 'flex', flexDirection:'column', width:'100px' }}>
-        <div style={{ display:'flex'}}>
+      <form onSubmit={getBlog} style={{ display: 'flex', flexDirection:'column', width:'100px' }}>
+        <div style={{ display:'flex' }}>
             title:
-            <input 
-                type='text'
-                name='title'
-                value={newTitle}
-                onChange={handleTitleChange}
-            />
+          <input
+            type='text'
+            name='title'
+            value={newTitle}
+            onChange={handleTitleChange}
+          />
         </div>
-        <div style={{display:'flex'}}>
+        <div style={{ display:'flex' }}>
             author:
-            <input 
-                type='text'
-                name='author'
-                value={newAuthor}
-                onChange={handleAuthorChange}
-            />
+          <input
+            type='text'
+            name='author'
+            value={newAuthor}
+            onChange={handleAuthorChange}
+          />
         </div>
-        <div style={{display:'flex'}}>
+        <div style={{ display:'flex' }}>
             url:
-            <input 
-                type='text'
-                name='url'
-                value={newUrl}
-                onChange={handleUrlChange}
-            />
+          <input
+            type='text'
+            name='url'
+            value={newUrl}
+            onChange={handleUrlChange}
+          />
         </div>
-        <button type='submit' style={{ width:'60px'}}>create</button>
-        </form>
+        <button type='submit' style={{ width:'60px' }}>create</button>
+      </form>
     </div>
   )
 }

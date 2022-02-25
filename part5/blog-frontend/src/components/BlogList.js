@@ -27,11 +27,11 @@ const BlogList = ({ blogs, updateLike, user, deleteBlogPost }) => {
   return (
     <div>
       {userBlogs.map(blog => (
-        blog !== null 
-        ? <div key={blog.id}>
-          <Blog key={blog.id} blog={blog} updateLike={updateLike} user={user} deleteBlogPost={deleteBlogPost}/>
-        </div>
-        : ''
+        blog !== null
+          ? <div key={blog.id}>
+            <Blog key={blog.id} blog={blog} updateLike={updateLike} user={user} deleteBlogPost={deleteBlogPost}/>
+          </div>
+          : ''
       ))}
     </div>
   )

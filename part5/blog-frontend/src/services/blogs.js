@@ -14,7 +14,7 @@ const getAll = async () => {
 
 const createBlogEntry = async (blogPost) => {
   const config = {
-    headers: { Authorization: token}
+    headers: { Authorization: token }
   }
 
   const response = await axios.post(baseUrl, blogPost, config)
@@ -31,6 +31,4 @@ const deleteBlog = async (infoObj) => {
   return response.data
 }
 
-
-// eslint-disable-next-line import/no-anonymous-default-export
 export default { getAll, createBlogEntry, setToken, updateLike, deleteBlog }

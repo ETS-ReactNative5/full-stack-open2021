@@ -29,8 +29,8 @@ const App = () => {
   }, [])
 
   useEffect(() => {
-    blogService.getAll().then(blogs => 
-      setBlogs(blogs)  
+    blogService.getAll().then(blogs =>
+      setBlogs(blogs)
     )
   })
 
@@ -62,7 +62,7 @@ const App = () => {
     event.preventDefault()
     window.localStorage.clear()
     setUser(null)
-  } 
+  }
 
   const createBlog = async (blogObject) => {
     const response = await blogService.createBlogEntry(blogObject)
@@ -83,7 +83,7 @@ const App = () => {
       id: id,
       user: user
     })
-    setValidMessage(`The blog entry has been deleted`)
+    setValidMessage('The blog entry has been deleted')
     setTimeout(() => {
       setValidMessage(null)
     }, 5000)
@@ -93,14 +93,14 @@ const App = () => {
     <div>
       <ErrorMessage message={errorMessage}/>
       {user === null
-      ? <LoginForm 
-        handleLogin={handleLogin}
-        username={username}
-        setUsername={setUsername}
-        password={password}
-        setPassword={setPassword}
-      />
-      : <div>
+        ? <LoginForm
+          handleLogin={handleLogin}
+          username={username}
+          setUsername={setUsername}
+          password={password}
+          setPassword={setPassword}
+        />
+        : <div>
           <ValidMessage message={validMessage}/>
           <div>
             <p>{user.name} logged in</p>
@@ -110,8 +110,8 @@ const App = () => {
             <h2>create new</h2>
             <CreateForm createBlog={createBlog} user={user}/>
           </Togglable>
-              <h2>blogs</h2>
-              <BlogList blogs={blogs} updateLike={updateBlogLikes} user={user} deleteBlogPost={deleteBlogPost}/>      
+          <h2>blogs</h2>
+          <BlogList blogs={blogs} updateLike={updateBlogLikes} user={user} deleteBlogPost={deleteBlogPost}/>
         </div>
       }
     </div>

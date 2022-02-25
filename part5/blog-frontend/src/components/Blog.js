@@ -34,7 +34,7 @@ const Blog = ({ blog, updateLike, user, deleteBlogPost }) => {
     event.preventDefault()
     if (window.confirm(`Remove Blog ${blog.title} by ${blog.author}?`)) {
       const token_decoded = jwt_decode(user.token)
-      console.log(token_decoded);
+      console.log(token_decoded)
       deleteBlogPost(blog.id, token_decoded)
     }
   }
@@ -50,10 +50,10 @@ const Blog = ({ blog, updateLike, user, deleteBlogPost }) => {
           <div>{blog.author}</div>
           <button onClick={deletePost}>remove</button>
         </div>
-      </div>  
+      </div>
     </>
   )
-} 
+}
 
 
 export default Blog
