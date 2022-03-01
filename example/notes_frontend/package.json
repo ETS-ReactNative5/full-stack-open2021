@@ -17,9 +17,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "server": "json-server -p3001 --watch db.json",
-    "eslint": "eslint --fix ."
+    "eslint": "eslint --fix .",
+    "cypress:open": "cypress open"
   },
-  
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -39,6 +39,8 @@
     ]
   },
   "devDependencies": {
+    "cypress": "^9.5.1",
+    "eslint-plugin-cypress": "^2.12.1",
     "json-server": "^0.17.0"
   },
   "proxy": "http://localhost:3001"
