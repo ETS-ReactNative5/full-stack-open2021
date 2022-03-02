@@ -9,6 +9,5 @@ describe('Blog app', function() {
         cy.contains('password')
         cy.get('#username').type('test 1')
         cy.get('#password').type('test 2')
-
     })
 })
