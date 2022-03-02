@@ -18,7 +18,7 @@
     "test": "react-scripts test",
     "server": "json-server -p3001 --watch db.json",
     "eslint": "eslint --fix .",
-    "cypress:open": "cypress open"
+    "test:e2e": "cypress run"
   },
   "eslintConfig": {
     "extends": [

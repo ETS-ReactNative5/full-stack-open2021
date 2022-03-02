@@ -22,21 +22,24 @@ describe('Note app', function() {
         cy.contains('federico logged-in')
     })
 
-    it.only('login fails with wrong password', function() {
+    it('login fails with wrong password', function() {
         cy.contains('log in').click()
         cy.get('#username').type('fedpre')
         cy.get('#password').type('wrong')
         cy.get('#login-button').click()
 
-        cy.contains('Wrong credentials')
+        cy.get('.error')
+            .should('contain', 'Wrong credentials')
+            .and('have.css', 'color', 'rgb(255, 0, 0)')
+            .and('have.css', 'border-style', 'solid')
+        
+        cy.get('html') // all visible content of the page
+            .should('not.contain', 'fedpre logged-in')
     })
 
     describe('when logged in', function() {
         beforeEach(function() {
-            cy.contains('log in'). click()
-            cy.get('#username').type('fedpre')
-            cy.get('#password').type('test1')
-            cy.get('#login-button').click()
+            cy.login({ username: 'fedpre', password: 'test1' })
         })
         it('a new note can be created', function() {
             cy.contains('new note').click()
@@ -46,9 +49,10 @@ describe('Note app', function() {
         })
         describe('and a note exists', function() {
             beforeEach(function () {
-                cy.contains('new note').click()
-                cy.get('#new-note').type('another note cypress')
-                cy.contains('save').click()
+                cy.createNote({
+                    content: 'another note cypress',
+                    important: false
+                })
             })
 
             it('it can be made important', function() {
@@ -57,6 +61,31 @@ describe('Note app', function() {
                     .click()
 
                 cy.contains('another note cypress')
+                    .contains('make not important')
+            })
+        })
+        describe('and several notes exist', function() {
+            beforeEach(function () {
+                cy.createNote({
+                    content: 'first note',
+                    important: false
+                })
+                cy.createNote({
+                    content: 'second note',
+                    important: false
+                })
+                cy.createNote({
+                    content: 'third note',
+                    important: false
+                })
+            })
+
+            it('one of those can be made important', function() {
+                cy.contains('second note')
+                    .contains('make important')
+                    .click()
+
+                cy.contains('second note')
                     .contains('make not important')
             })
         })
