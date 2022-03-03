@@ -39,13 +39,26 @@ describe('Blog app', function() {
             cy.login({ username: 'fedpre', password: 'test1'})
         })
 
-        it.only('a blog can be created', function() {
+        it('a blog can be created', function() {
             cy.contains('Create new blog').click()
             cy.get('#title').type('blog created cypress')
             cy.get('#author').type('federico')
             cy.get('#url').type('http://fedpregnolato.io')
             cy.get('#create-button').click()
             cy.contains('blog created cypress')
+        })
+
+        it.only('user can like the blog', function() {
+            const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
+            const user = JSON.parse(loggedUserJSON)
+            cy.createBlog({ title: 'test1', author: 'fede', url:'http://test.test', user: user })
+            cy.reload()
+            cy.contains('view').click()
+            cy.contains('likes 0')
+            cy.contains('like').click()
+            cy.reload()
+            cy.contains('view').click()
+            cy.contains('likes 1')
         })
     })
 })
