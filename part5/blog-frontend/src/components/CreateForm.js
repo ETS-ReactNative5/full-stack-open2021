@@ -16,6 +16,7 @@ const CreateForm = ({ createBlog, user }) => {
   }
 
   const getBlog = (event) => {
+    console.log(user)
     event.preventDefault()
     createBlog({
       title: newTitle,
@@ -34,6 +35,7 @@ const CreateForm = ({ createBlog, user }) => {
         <div style={{ display:'flex' }}>
             title:
           <input
+            id="title"
             type='text'
             name='title'
             value={newTitle}
@@ -44,6 +46,7 @@ const CreateForm = ({ createBlog, user }) => {
         <div style={{ display:'flex' }}>
             author:
           <input
+            id="author"
             type='text'
             name='author'
             value={newAuthor}
@@ -54,6 +57,7 @@ const CreateForm = ({ createBlog, user }) => {
         <div style={{ display:'flex' }}>
             url:
           <input
+            id="url"
             type='text'
             name='url'
             value={newUrl}
@@ -61,7 +65,7 @@ const CreateForm = ({ createBlog, user }) => {
             placeholder='write the url'
           />
         </div>
-        <button type='submit' style={{ width:'60px' }}>create</button>
+        <button type='submit' style={{ width:'60px' }} id="create-button">create</button>
       </form>
     </div>
   )

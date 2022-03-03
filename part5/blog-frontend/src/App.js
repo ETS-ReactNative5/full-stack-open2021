@@ -32,7 +32,7 @@ const App = () => {
     blogService.getAll().then(blogs =>
       setBlogs(blogs)
     )
-  })
+  }, [])
 
   const handleLogin = async (event) => {
     event.preventDefault()

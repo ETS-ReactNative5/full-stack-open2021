@@ -29,7 +29,23 @@ describe('Blog app', function() {
             cy.get('#username').type('fedpre2')
             cy.get('#password').type('test2')
             cy.contains('login').click()
-            cy.contains('Wrong Credentials')
+            cy.get('.error')
+            .should('contain', 'Wrong Credentials')
+            .and('have.css', 'color', 'rgb(255, 0, 0)')
+        })
+    })
+    describe('When logged in', function() {
+        beforeEach(function() {
+            cy.login({ username: 'fedpre', password: 'test1'})
+        })
+
+        it.only('a blog can be created', function() {
+            cy.contains('Create new blog').click()
+            cy.get('#title').type('blog created cypress')
+            cy.get('#author').type('federico')
+            cy.get('#url').type('http://fedpregnolato.io')
+            cy.get('#create-button').click()
+            cy.contains('blog created cypress')
         })
     })
 })
