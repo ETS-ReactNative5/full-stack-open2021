@@ -12,10 +12,13 @@ const AnectodeForm = () => {
     dispatch(orderAn())
     }
     return (
-        <form onSubmit={addAnecdote}>
-            <div><input name='anecdote' autoComplete='off' /></div>
-            <button type='submit'>create</button>
-        </form>
+        <>
+             <h2>create new</h2>
+            <form onSubmit={addAnecdote}>
+                <div><input name='anecdote' autoComplete='off' /></div>
+                <button type='submit'>create</button>
+            </form>
+        </>
     )
 }
 
