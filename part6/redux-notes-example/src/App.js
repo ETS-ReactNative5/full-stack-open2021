@@ -1,8 +1,13 @@
-import React from 'react'
+import NewNote from './components/NewNote'
+import Notes from './components/Notes'
+
 
 const App = () => {
-  return (
-    <div>App</div>
+  return(
+    <div>
+      <NewNote />
+      <Notes />
+    </div>
   )
 }
 
