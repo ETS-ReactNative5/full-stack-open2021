@@ -38,6 +38,19 @@ const reducer = (state = initialState, action) => {
 
     case 'NEW_ANECDOTE':
       return [...state, action.data]
+
+    case 'ORDER_VOTE':
+      // create a descending order -> from the largest to the smallest
+      const sortedState = state.sort((a, b) => {
+        if (a.votes < b.votes) {
+          return 1
+        } else if (a.votes > b.votes) {
+          return -1
+        } else {
+          return 0
+        }
+      })
+      return sortedState
   }
   return state
 }
@@ -57,6 +70,12 @@ export const addAn = (content) => {
       id: getId(),
       votes: 0,
     }
+  }
+}
+
+export const orderAn = () => {
+  return {
+    type: 'ORDER_VOTE'
   }
 }
 
