@@ -35,15 +35,28 @@ const reducer = (state = initialState, action) => {
         anecdote.id !== id ? anecdote : newAnecdote)
       
       return newState
+
+    case 'NEW_ANECDOTE':
+      return [...state, action.data]
   }
-  console.log(state);
   return state
 }
 
 export const voteAn = (id) => {
   return {
-    type:'VOTE',
+    type: 'VOTE',
     id: { id }
+  }
+}
+
+export const addAn = (content) => {
+  return {
+    type: 'NEW_ANECDOTE',
+    data: {
+      content: content,
+      id: getId(),
+      votes: 0,
+    }
   }
 }
 
