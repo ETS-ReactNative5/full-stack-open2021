@@ -33,7 +33,7 @@ const reducer = (state = initialState, action) => {
       }
       const newState = state.map(anecdote => 
         anecdote.id !== id ? anecdote : newAnecdote)
-      
+      console.log(newState)
       return newState
 
     case 'NEW_ANECDOTE':
@@ -50,7 +50,8 @@ const reducer = (state = initialState, action) => {
           return 0
         }
       })
-      return sortedState
+
+    return sortedState
   }
   return state
 }

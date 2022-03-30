@@ -5,11 +5,11 @@ const AnectodeForm = () => {
     const dispatch = useDispatch()
     
     const addAnecdote = (event) => {
-    event.preventDefault()
-    const content = event.target.anecdote.value
-    event.target.anecdote.value = ''
-    dispatch(addAn(content))
-    dispatch(orderAn())
+        event.preventDefault()
+        const content = event.target.anecdote.value
+        event.target.anecdote.value = ''
+        dispatch(addAn(content))
+        dispatch(orderAn())
     }
     return (
         <>
