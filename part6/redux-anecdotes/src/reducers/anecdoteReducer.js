@@ -58,6 +58,9 @@ const anecdoteSlice = createSlice({
   }
 })
 
+export const { voteAnecdote, createAnecdote, sortAnecdotes } = anecdoteSlice.actions
+export default anecdoteSlice.reducer
+
 // const reducer = (state = initialState, action) => {
 //   console.log('state now: ', state)
 //   console.log('action', action)
@@ -119,5 +122,3 @@ const anecdoteSlice = createSlice({
 //   }
 // }
 
-export const { voteAnecdote, createAnecdote, sortAnecdotes } = anecdoteSlice.actions
-export default anecdoteSlice.reducer
