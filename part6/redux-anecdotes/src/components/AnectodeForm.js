@@ -1,5 +1,6 @@
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { createAnecdote, sortAnecdotes } from '../reducers/anecdoteReducer' 
+import { showMessage, hideMessage } from '../reducers/notificationReducer'
 
 const AnectodeForm = () => {
     const dispatch = useDispatch()
@@ -10,6 +11,10 @@ const AnectodeForm = () => {
         event.target.anecdote.value = ''
         dispatch(createAnecdote(content))
         dispatch(sortAnecdotes())
+        dispatch(showMessage(`you created '${content}'`))
+        setTimeout(() => {
+            dispatch(hideMessage())
+        }, 5000)
     }
     return (
         <>
