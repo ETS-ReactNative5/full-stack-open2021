@@ -16,10 +16,14 @@ const AnectodeForm = () => {
             dispatch(hideMessage())
         }, 5000)
     }
+
+    const style = {
+        marginBottom: 20,
+    }
     return (
         <>
             <h2>create new</h2>
-            <form onSubmit={addAnecdote}>
+            <form onSubmit={addAnecdote} style={style}>
                 <div><input name='anecdote' autoComplete='off' /></div>
                 <button type='submit'>create</button>
             </form>
