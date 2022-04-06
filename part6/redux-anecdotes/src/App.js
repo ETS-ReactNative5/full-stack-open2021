@@ -10,8 +10,8 @@ import { setAnecdotes } from './reducers/anecdoteReducer'
 const App = () => {
   const dispatch = useDispatch()
   useEffect(() => {
-    anecdoteService.getAll().then(notes =>
-        dispatch(setAnecdotes(notes))
+    anecdoteService.getAll().then(anecdotes =>
+        dispatch(setAnecdotes(anecdotes))
       )
   }, [dispatch])
   

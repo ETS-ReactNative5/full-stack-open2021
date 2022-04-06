@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-const getId = () => (100000 * Math.random()).toFixed(0)
-
+export const getId = () => (100000 * Math.random()).toFixed(0)
 const initialState = []
 
 const anecdoteSlice = createSlice({
@@ -18,12 +17,7 @@ const anecdoteSlice = createSlice({
       state = state.map(anecdote => anecdote.id !== id ? anecdote : newAnecdote)
     },
     createAnecdote(state, action) {
-      const content = action.payload
-      state.push({
-        content,
-        id: getId(),
-        votes: 0,
-      })
+      state.push(action.payload)
     },
     sortAnecdotes(state, action) {
       const sortedState = state.sort((a, b) => {
