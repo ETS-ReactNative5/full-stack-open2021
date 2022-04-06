@@ -19,6 +19,7 @@ const Notes = () => {
             ? notes.filter(note => note.important)
             : notes.filter(note => !note.important)
     })
+    
 
     return (
         <ul>
