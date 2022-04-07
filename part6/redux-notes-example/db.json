@@ -14,6 +14,11 @@
       "content": "hello world",
       "important": false,
       "id": 3
+    },
+    {
+      "content": "hello fede from react thunk",
+      "important": false,
+      "id": 4
     }
   ]
 }
