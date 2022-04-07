@@ -65,4 +65,3 @@ export const voteAnAnecdote = (id) => {
 }
 
 export default anecdoteSlice.reducer
-
