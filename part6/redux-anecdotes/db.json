@@ -54,6 +54,11 @@
       "content": "hello from react-connect",
       "id": "50603",
       "votes": 0
+    },
+    {
+      "content": "hello from new connect form",
+      "id": "59962",
+      "votes": 0
     }
   ]
 }

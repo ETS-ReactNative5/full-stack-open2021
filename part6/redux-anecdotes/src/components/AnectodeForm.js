@@ -1,20 +1,18 @@
-import { useDispatch, useSelector } from 'react-redux'
+import { connect } from 'react-redux'
 import { createAnecdote, sortAnecdotes } from '../reducers/anecdoteReducer' 
 import { showMessage, hideMessage } from '../reducers/notificationReducer'
 import anecdoteService from '../services/anecdotes'
 
-const AnectodeForm = () => {
-    const dispatch = useDispatch()
-    
+const AnectodeForm = (props) => {
     const addAnecdote = async (event) => {
         event.preventDefault()
         const content = event.target.anecdote.value
         event.target.anecdote.value = ''
-        dispatch(createAnecdote(content))
-        dispatch(sortAnecdotes())
-        dispatch(showMessage(`you created '${content}'`))
+        props.createAnecdote(content)
+        props.sortAnecdotes()
+        props.showMessage(`you created '${content}'`)
         setTimeout(() => {
-            dispatch(hideMessage())
+            props.hideMessage()
         }, 5000)
     }
 
@@ -32,4 +30,8 @@ const AnectodeForm = () => {
     )
 }
 
-export default AnectodeForm
+
+export default connect(
+    null,
+    { createAnecdote, sortAnecdotes, showMessage, hideMessage }
+)(AnectodeForm)
