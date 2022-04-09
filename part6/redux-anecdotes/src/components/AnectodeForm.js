@@ -1,7 +1,6 @@
 import { connect } from 'react-redux'
 import { createAnecdote, sortAnecdotes } from '../reducers/anecdoteReducer' 
 import { showMessage, hideMessage } from '../reducers/notificationReducer'
-import anecdoteService from '../services/anecdotes'
 
 const AnectodeForm = (props) => {
     const addAnecdote = async (event) => {
