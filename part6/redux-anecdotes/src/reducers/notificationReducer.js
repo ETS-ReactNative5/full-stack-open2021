@@ -28,9 +28,10 @@ export const { showMessage, hideMessage } = notificationSlice.actions
 export const setNotification = (message, time) => {
     return dispatch => {
         dispatch(showMessage(message))
-        setTimeout(() => {
+        const t = setTimeout(() => {
             dispatch(hideMessage())
           }, time * 1000)
+        // clearTimeout(t)
     }
 }
 
