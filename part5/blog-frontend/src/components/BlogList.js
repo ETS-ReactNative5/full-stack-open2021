@@ -1,8 +1,11 @@
 import React from 'react'
 import Blog from './Blog'
 import jwt_decode from 'jwt-decode'
+import { useSelector } from 'react-redux'
 
-const BlogList = ({ blogs, updateLike, user, deleteBlogPost, }) => {
+const BlogList = ({ updateLike, user, deleteBlogPost, }) => {
+  const blogs = useSelector(state => state.blogs)
+  console.log(blogs)
 
   const compare = (a, b) => {
     if (a.likes < b.likes) {
@@ -13,7 +16,7 @@ const BlogList = ({ blogs, updateLike, user, deleteBlogPost, }) => {
     }
     return 0
   }
-  const sortedBlogs = blogs.sort(compare)
+  const sortedBlogs = [...blogs].sort(compare)
   const token_decoded = jwt_decode(user.token)
 
   const userBlogs = sortedBlogs.map((blog) => {

@@ -10,7 +10,12 @@ import './index.css'
 import BlogList from './components/BlogList'
 import Togglable from './components/Togglable'
 
+// Redux implementation
+import { useDispatch } from 'react-redux'
+import { initializeBlogs } from './reducers/blogsReducer'
+
 const App = () => {
+  const dispatch = useDispatch()
   const [errorMessage, setErrorMessage] = useState(null)
   const [validMessage, setValidMessage] = useState(null)
   const [blogs, setBlogs] = useState([])
@@ -29,10 +34,8 @@ const App = () => {
   }, [])
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs(blogs)
-    )
-  }, [])
+    dispatch(initializeBlogs())
+  }, [dispatch])
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -111,7 +114,7 @@ const App = () => {
             <CreateForm createBlog={createBlog} user={user}/>
           </Togglable>
           <h2>blogs</h2>
-          <BlogList blogs={blogs} updateLike={updateBlogLikes} user={user} deleteBlogPost={deleteBlogPost}/>
+          <BlogList updateLike={updateBlogLikes} user={user} deleteBlogPost={deleteBlogPost}/>
         </div>
       }
     </div>
