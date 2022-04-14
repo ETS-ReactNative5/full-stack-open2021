@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux'
 
 const BlogList = ({ updateLike, user, deleteBlogPost, }) => {
   const blogs = useSelector(state => state.blogs)
-  console.log(blogs)
 
   const compare = (a, b) => {
     if (a.likes < b.likes) {

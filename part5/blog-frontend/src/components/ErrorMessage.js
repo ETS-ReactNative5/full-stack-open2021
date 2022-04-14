@@ -1,6 +1,9 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 
-const ErrorMessage = ({ message }) => {
+const ErrorMessage = () => {
+  const message = useSelector(state => state.error)
+
   if (message === null) {
     return null
   }

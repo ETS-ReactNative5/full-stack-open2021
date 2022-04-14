@@ -1,6 +1,9 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 
-const ValidMessage = ({ message }) => {
+const ValidMessage = () => {
+  const message = useSelector(state => state.valid)
+
   if (message === null) {
     return null
   }

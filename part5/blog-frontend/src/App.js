@@ -12,13 +12,13 @@ import Togglable from './components/Togglable'
 
 // Redux implementation
 import { useDispatch } from 'react-redux'
-import { initializeBlogs } from './reducers/blogsReducer'
+import { addBlog, initializeBlogs } from './reducers/blogsReducer'
+import { timedError } from './reducers/errorReducer'
+import { timedValid } from './reducers/validReducer'
 
 const App = () => {
   const dispatch = useDispatch()
-  const [errorMessage, setErrorMessage] = useState(null)
-  const [validMessage, setValidMessage] = useState(null)
-  const [blogs, setBlogs] = useState([])
+
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
@@ -52,12 +52,9 @@ const App = () => {
       setPassword('')
 
     } catch (exception) {
-      setErrorMessage('Wrong Credentials')
+      dispatch(timedError('Wrong Credentials'))
       setUsername('')
       setPassword('')
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
     }
   }
 
@@ -69,16 +66,15 @@ const App = () => {
 
   const createBlog = async (blogObject) => {
     const response = await blogService.createBlogEntry(blogObject)
-    setBlogs(blogs.concat(response))
-    setValidMessage(`A new blog ${blogObject.title} ${blogObject.author} added`)
+    dispatch(addBlog(response))
+    dispatch(timedValid(`A new blog ${blogObject.title} ${blogObject.author} added`))
+    dispatch(initializeBlogs())
     blogFormRef.current.toggleVisibility()
-    setTimeout(() => {
-      setValidMessage(null)
-    }, 5000)
   }
 
   const updateBlogLikes = async (blogPost, id) => {
     await blogService.updateLike(blogPost, id)
+    dispatch(initializeBlogs())
   }
 
   const deleteBlogPost = async (id, user) => {
@@ -86,15 +82,13 @@ const App = () => {
       id: id,
       user: user
     })
-    setValidMessage('The blog entry has been deleted')
-    setTimeout(() => {
-      setValidMessage(null)
-    }, 5000)
+    dispatch(initializeBlogs())
+    dispatch(timedValid('The blog entry has been deleted'))
   }
 
   return (
     <div>
-      <ErrorMessage message={errorMessage}/>
+      <ErrorMessage/>
       {user === null
         ? <LoginForm
           handleLogin={handleLogin}
@@ -104,7 +98,7 @@ const App = () => {
           setPassword={setPassword}
         />
         : <div>
-          <ValidMessage message={validMessage}/>
+          <ValidMessage/>
           <div>
             <p>{user.name} logged in</p>
             <button onClick={clearLocStor}>log out</button>

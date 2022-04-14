@@ -9,11 +9,15 @@ const blogSlice = createSlice({
   reducers: {
     setBlogs(state, action) {
       return action.payload
+    },
+    addBlog(state, action) {
+      const newState = [...state, action.payload]
+      return newState
     }
   }
 })
 
-export const { setBlogs } = blogSlice.actions
+export const { setBlogs, addBlog } = blogSlice.actions
 
 export const initializeBlogs = () => {
   return async dispatch => {
