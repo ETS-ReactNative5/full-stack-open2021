@@ -1,29 +1,27 @@
-import { useState, useEffect, useRef } from 'react'
-import LoginForm from './components/LoginForm'
-import ErrorMessage from './components/ErrorMessage'
-import ValidMessage from './components/ValidMessage'
-import CreateForm from './components/CreateForm'
-import loginService from './services/login'
-
-import blogService from './services/blogs'
+import { useEffect } from 'react'
 import './index.css'
-import BlogList from './components/BlogList'
-import Togglable from './components/Togglable'
+
+// SERVICES
+import loginService from './services/login'
+import blogService from './services/blogs'
+
+// COMPONENTS
+import Home from './components/Home'
+import Users from './components/Users'
 
 // Redux implementation
 import { useDispatch, useSelector } from 'react-redux'
-import { addBlog, initializeBlogs } from './reducers/blogsReducer'
-import { timedError } from './reducers/errorReducer'
-import { timedValid } from './reducers/validReducer'
+import { initializeBlogs } from './reducers/blogsReducer'
 import { setTheUser } from './reducers/userReducer'
+
+// Router Implementation
+import {
+  BrowserRouter as Router,
+  Routes, Route, Link, Redirect
+} from 'react-router-dom'
 
 const App = () => {
   const dispatch = useDispatch()
-
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const blogFormRef = useRef()
-
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
@@ -37,84 +35,26 @@ const App = () => {
     dispatch(initializeBlogs())
   }, [dispatch])
 
-  const handleLogin = async (event) => {
-    event.preventDefault()
-    try {
-      const user = await loginService.login({
-        username, password
-      })
-      window.localStorage.setItem(
-        'loggedBlogappUser', JSON.stringify(user)
-      )
-      console.log(user);
-      blogService.setToken(user.token)
-      dispatch(setTheUser(user))
-      setUsername('')
-      setPassword('')
-
-    } catch (exception) {
-      dispatch(timedError('Wrong Credentials'))
-      setUsername('')
-      setPassword('')
-    }
-    // add a dispatch to clear the state
+  const padding = {
+    padding: 5
   }
-
-  const clearLocStor = (event) => {
-    event.preventDefault()
-    window.localStorage.clear()
-    dispatch(setTheUser(null))
-  }
-
-  const createBlog = async (blogObject) => {
-    const response = await blogService.createBlogEntry(blogObject)
-    dispatch(addBlog(response))
-    dispatch(timedValid(`A new blog ${blogObject.title} ${blogObject.author} added`))
-    dispatch(initializeBlogs())
-    blogFormRef.current.toggleVisibility()
-  }
-
-  const updateBlogLikes = async (blogPost, id) => {
-    await blogService.updateLike(blogPost, id)
-    dispatch(initializeBlogs())
-  }
-
-  const deleteBlogPost = async (id, user) => {
-    await blogService.deleteBlog({
-      id: id,
-      user: user
-    })
-    dispatch(initializeBlogs())
-    dispatch(timedValid('The blog entry has been deleted'))
-  }
-
+  
   const user = useSelector(state => state.user)
-
   return (
     <div>
-      <ErrorMessage/>
-      {user === null
-        ? <LoginForm
-          handleLogin={handleLogin}
-          username={username}
-          setUsername={setUsername}
-          password={password}
-          setPassword={setPassword}
-        />
-        : <div>
-          <ValidMessage/>
-          <div>
-            <p>{user.name} logged in</p>
-            <button onClick={clearLocStor}>log out</button>
-          </div>
-          <Togglable buttonLabel='Create new blog' ref={blogFormRef}>
-            <h2>create new</h2>
-            <CreateForm createBlog={createBlog} user={user}/>
-          </Togglable>
-          <h2>blogs</h2>
-          <BlogList updateLike={updateBlogLikes} user={user} deleteBlogPost={deleteBlogPost}/>
-        </div>
-      }
+    {
+      user
+      ? <>
+        <Link style={padding} to='/'>home</Link>
+        <Link style={padding} to='/users'>users</Link>
+      </>
+      : ''
+    }
+      <Routes>
+        <Route path='/' element={<Home />} />
+        <Route path='/users' element={<Users />} />
+      </Routes>
+
     </div>
   )
 }
