@@ -45,4 +45,12 @@ export const deleteBlogPost = (id, user) => {
   }
 }
 
+export const addAComment = (post, id) => {
+  return async dispatch => {
+    await blogService.addComment(post, id)
+    dispatch(initializeBlogs())
+    dispatch(timedValid('The comment has been added!'))
+  }
+}
+
 export default blogSlice.reducer

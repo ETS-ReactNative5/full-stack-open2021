@@ -69,8 +69,6 @@ const App = () => {
   const navbar = {
     display: 'flex',
     alignItems: 'center',
-    width: '300px',
-    justifyContent: 'space-between',
     backgroundColor: '#ccc',
     padding: '0 20px 0 20px', 
   }

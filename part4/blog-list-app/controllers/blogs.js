@@ -4,6 +4,7 @@ const User = require('../models/user')
 const jwt = require('jsonwebtoken')
 const jwt_decode = require('jwt-decode')
 const blog = require('../models/blog')
+const mongoose = require('mongoose')
 
 blogsRouter.get('/', async (request, response) => {
     
@@ -28,6 +29,7 @@ blogsRouter.post('/', async (request, response) => {
         author: body.author,
         url: body.url,
         likes: !body.likes ? 0 : body.likes,
+        comments: [],
         user: userDB._id
     })
 
@@ -57,6 +59,7 @@ blogsRouter.delete('/:id', async (request, response) => {
 blogsRouter.put('/:id', async (request, response) => {
     const body = request.body
     const newPost = {
+        ...body,
         title: body.title,
         author: body.author,
         url: body.url,
@@ -64,6 +67,20 @@ blogsRouter.put('/:id', async (request, response) => {
     }
 
     const updatedPost = await Blog.findByIdAndUpdate(request.params.id, newPost, {new: true})
+    response.json(updatedPost)
+})
+
+blogsRouter.put('/:id/comments', async (request, response) => {
+    const body = request.body
+    const newPost = {
+        title: body.title,
+        author: body.author,
+        url: body.url,
+        likes: body.likes,
+        comments: body.comments
+    }
+    const updatedPost = await Blog.findByIdAndUpdate(request.params.id, newPost, {new: true})
+
     response.json(updatedPost)
 })
 
