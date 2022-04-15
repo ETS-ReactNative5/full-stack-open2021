@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 // REDUCERS
 import { setTheUser } from '../reducers/userReducer'
+import { addAllUsers } from '../reducers/usersReducer'
 
 // SERVICES
 import userService from '../services/users'
@@ -13,30 +14,15 @@ const Users = () => {
   const user = useSelector(state => state.user)
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const [users, setUsers] = useState([])
-
-  const clearLocStor = (event) => {
-    event.preventDefault()
-    window.localStorage.clear()
-    dispatch(setTheUser(null))
-    navigate('/')
+  const users = useSelector(state => state.users)
+  
+  if (!user) {
+    return null
   }
 
-  useEffect(() => {
-    const getUsers = async () => {
-      const allUsers = await userService.getAllUsers()
-      setUsers(allUsers)
-    }
-    getUsers()
-  }, [])
-  
 
   return (
     <div>
-      <div>
-        <p>{user.name} logged in</p>
-        <button onClick={clearLocStor}>log out</button>
-      </div>
       <div>
        <h2>Users</h2>
        <table>
@@ -50,7 +36,7 @@ const Users = () => {
           {
             users.map(user => (
                 <tr key={user.id}>
-                  <td>{user.name}</td>
+                  <td><Link to={`/users/${user.id}`}>{user.name}</Link></td>
                   <td>{user.blogs.length}</td>
                 </tr>
             ))

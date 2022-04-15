@@ -1,11 +1,50 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+
+// SERVICES
+import loginService from '../services/login'
+import blogService from '../services/blogs'
+
+// REDUCERS
+import { setTheUser } from '../reducers/userReducer'
+import { timedError } from '../reducers/errorReducer'
+import ErrorMessage from './ErrorMessage'
 
 
-const LoginForm = ({ handleLogin, username, setUsername, password, setPassword }) => {
+const LoginForm = () => {
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
   
+  const handleLogin = async (event) => {
+    event.preventDefault()
+    try {
+      const user = await loginService.login({
+        username, password
+      })
+      window.localStorage.setItem(
+        'loggedBlogappUser', JSON.stringify(user)
+      )
+      blogService.setToken(user.token)
+      dispatch(setTheUser(user))
+      setUsername('')
+      setPassword('')
+
+    } catch (exception) {
+      dispatch(timedError('Wrong Credentials'))
+      setUsername('')
+      setPassword('')
+    }
+    navigate('/')
+  }
+
+
   return (
     <div>
+      <ErrorMessage/>
       <h2>log in to application</h2>
       <form onSubmit={handleLogin}>
         <div>
@@ -34,12 +73,12 @@ const LoginForm = ({ handleLogin, username, setUsername, password, setPassword }
   )
 }
 
-LoginForm.propTypes = {
-  handleLogin: PropTypes.func.isRequired,
-  username: PropTypes.string.isRequired,
-  setUsername: PropTypes.func.isRequired,
-  password: PropTypes.string.isRequired,
-  setPassword: PropTypes.func.isRequired,
-}
+// LoginForm.propTypes = {
+//   handleLogin: PropTypes.func.isRequired,
+//   username: PropTypes.string.isRequired,
+//   setUsername: PropTypes.func.isRequired,
+//   password: PropTypes.string.isRequired,
+//   setPassword: PropTypes.func.isRequired,
+// }
 
 export default LoginForm
