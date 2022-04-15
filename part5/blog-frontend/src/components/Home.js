@@ -33,20 +33,6 @@ const Blogs = () => {
     blogFormRef.current.toggleVisibility()
   }
 
-  const updateBlogLikes = async (blogPost, id) => {
-    await blogService.updateLike(blogPost, id)
-    dispatch(initializeBlogs())
-  }
-
-  const deleteBlogPost = async (id, user) => {
-    await blogService.deleteBlog({
-      id: id,
-      user: user
-    })
-    dispatch(initializeBlogs())
-    dispatch(timedValid('The blog entry has been deleted'))
-  }
-
   return (
       <div>
           <ValidMessage/>
@@ -56,7 +42,7 @@ const Blogs = () => {
             <CreateForm createBlog={createBlog} user={user}/>
           </Togglable>
           
-          <BlogList updateLike={updateBlogLikes} user={user} deleteBlogPost={deleteBlogPost}/>
+          <BlogList />
       </div>
   )
 }

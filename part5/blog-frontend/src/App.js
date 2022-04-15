@@ -9,6 +9,7 @@ import Home from './components/Home'
 import Users from './components/Users'
 import UserBlogs from './components/UserBlogs'
 import LoginForm from './components/LoginForm'
+import Blog from './components/Blog'
 
 // Redux implementation
 import { useDispatch, useSelector } from 'react-redux'
@@ -45,22 +46,33 @@ const App = () => {
     getUsers()
   }, [])
 
-  const padding = {
-    padding: 5
-  }
-  
-  const user = useSelector(state => state.user)
-  const users = useSelector(state => state.users)
-
-  const match = useMatch('/users/:id')
-  const userMatch = match
-      ? users.find(u => u.id === match.params.id)
-      : null
-
   const clearLocStor = (event) => {
     event.preventDefault()
     window.localStorage.clear()
     dispatch(setTheUser(null))
+  }
+  
+  const user = useSelector(state => state.user)
+  const users = useSelector(state => state.users)
+  const blogs = useSelector(state => state.blogs)
+
+  const uMatch = useMatch('/users/:id')
+  const userMatch = uMatch
+      ? users.find(u => u.id === uMatch.params.id)
+      : null
+
+  const bMatch = useMatch('blogs/:id')
+  const blogMatch = bMatch
+      ? blogs.find(b => b.id === bMatch.params.id)
+      : null
+
+  const navbar = {
+    display: 'flex',
+    alignItems: 'center',
+    width: '300px',
+    justifyContent: 'space-between',
+    backgroundColor: '#ccc',
+    padding: '0 20px 0 20px', 
   }
 
   return (
@@ -68,9 +80,9 @@ const App = () => {
     {
       user
       && <>
-          <Link style={padding} to='/'>home</Link>
-          <Link style={padding} to='/users'>users</Link>
-          <div>
+          <div style={navbar} className='nav'>
+            <Link style={{ padding: 5 }} to='/'>blogs</Link>
+            <Link style={{ padding: 5 }} to='/users'>users</Link>
             <p>{user.name} logged in</p>
             <button onClick={clearLocStor}>log out</button>
           </div>
@@ -78,11 +90,12 @@ const App = () => {
     }
       <Routes>
         <Route path='/' element={
-          !user ? <Navigate to='/login' /> : <Home />
+          user === null ? <Navigate to='/login' /> : <Home />
           }/>
         <Route path='/users' element={<Users />} />
         <Route path='/login' element={<LoginForm />} />
         <Route path='/users/:id' element={<UserBlogs user={userMatch} />} />
+        <Route path='/blogs/:id' element={<Blog blog={blogMatch} />} />
       </Routes>
 
     </div>

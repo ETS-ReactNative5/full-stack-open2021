@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
-import blogsService from '../services/blogs'
+import blogService from '../services/blogs'
+import { timedValid } from './validReducer'
 
 const initialState = []
 
@@ -21,8 +22,26 @@ export const { setBlogs, addBlog } = blogSlice.actions
 
 export const initializeBlogs = () => {
   return async dispatch => {
-    const blogs = await blogsService.getAll()
+    const blogs = await blogService.getAll()
     dispatch(setBlogs(blogs))
+  }
+}
+
+export const updateBlogLike = (blogPost, id) => {
+  return async dispatch => {
+    await blogService.updateLike(blogPost, id)
+    dispatch(initializeBlogs())
+  }
+}
+
+export const deleteBlogPost = (id, user) => {
+    return async dispatch => {
+      await blogService.deleteBlog({
+      id: id,
+      user: user
+    })
+    dispatch(initializeBlogs())
+    dispatch(timedValid('The blog entry has been deleted'))
   }
 }
 

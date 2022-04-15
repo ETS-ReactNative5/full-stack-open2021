@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 // SERVICES
@@ -18,6 +18,15 @@ const LoginForm = () => {
   const [password, setPassword] = useState('')
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const user = useSelector(state => state.user)
+
+  useEffect(() => {
+    if (user) {
+      navigate('/')
+    }
+
+  }, [])
+    
   
   const handleLogin = async (event) => {
     event.preventDefault()

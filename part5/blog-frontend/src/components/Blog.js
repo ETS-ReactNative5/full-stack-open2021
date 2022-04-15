@@ -1,38 +1,37 @@
-import { React, useState } from 'react'
+import React from 'react'
 import jwt_decode from 'jwt-decode'
+import { useDispatch, useSelector } from 'react-redux'
+import { deleteBlogPost, updateBlogLike } from '../reducers/blogsReducer'
+import { useNavigate } from 'react-router-dom'
 
-const Blog = ({ blog, updateLike, user, deleteBlogPost }) => {
+const Blog = ({ blog }) => {
+  const dispatch = useDispatch()
+  const user = useSelector(state => state.user)
+  const navigate = useNavigate()
+
+  if (!blog) {
+    return null
+  }
+  
   let token_decoded
   if (user) {
     token_decoded = jwt_decode(user.token)
   } else {
     token_decoded = null
   }
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: 'solid',
-    borderWidth: 1,
-    marginBottom: 5
-  }
-  const [view, setView] = useState(false)
-  const hideShow = {
-    display: view ? '' : 'none'
-  }
 
-  const toggleView = () => {
-    setView(!view)
-  }
 
-  const updateBlogLike = (event) => {
+  const like = (event) => {
     event.preventDefault()
-    updateLike({
+    const newBlog = {
       user: user ? token_decoded.id : null,
       likes: blog.likes + 1,
       author: blog.author,
       title: blog.title,
       url: blog.url,
-    }, blog.id)
+    }
+
+    dispatch(updateBlogLike(newBlog, blog.id))
   }
 
   const deletePost = (event) => {
@@ -40,20 +39,20 @@ const Blog = ({ blog, updateLike, user, deleteBlogPost }) => {
     if (window.confirm(`Remove Blog ${blog.title} by ${blog.author}?`)) {
       const token_decoded = jwt_decode(user.token)
       console.log(token_decoded)
-      deleteBlogPost(blog.id, token_decoded)
+      dispatch(deleteBlogPost(blog.id, token_decoded))
     }
   }
 
   return (
     <>
-      <div style={blogStyle} className='blog'>
-        {blog.title} {blog.author}
-        <button onClick={toggleView} id='view'>{view ? 'hide' : 'view'}</button>
-        <div style={hideShow}>
+      <div>
+        <h1>{blog.title} {blog.author}</h1>
+        <div>
           <div>{blog.url}</div>
-          <div>likes {blog.likes} <button onClick={updateBlogLike} data-testid="#like">like</button></div>
-          <div>{blog.author}</div>
+          <div>{blog.likes} likes <button onClick={like} data-testid="#like">like</button></div>
+          <div>Added by: {blog.author}</div>
           <button onClick={deletePost}>remove</button>
+          <button onClick={() => navigate('/')}>back</button>
         </div>
       </div>
     </>
