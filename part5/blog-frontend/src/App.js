@@ -11,17 +11,17 @@ import BlogList from './components/BlogList'
 import Togglable from './components/Togglable'
 
 // Redux implementation
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { addBlog, initializeBlogs } from './reducers/blogsReducer'
 import { timedError } from './reducers/errorReducer'
 import { timedValid } from './reducers/validReducer'
+import { setTheUser } from './reducers/userReducer'
 
 const App = () => {
   const dispatch = useDispatch()
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [user, setUser] = useState(null)
   const blogFormRef = useRef()
 
 
@@ -29,7 +29,7 @@ const App = () => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
-      setUser(user)
+      dispatch(setTheUser(user))
     }
   }, [])
 
@@ -46,8 +46,9 @@ const App = () => {
       window.localStorage.setItem(
         'loggedBlogappUser', JSON.stringify(user)
       )
+      console.log(user);
       blogService.setToken(user.token)
-      setUser(user)
+      dispatch(setTheUser(user))
       setUsername('')
       setPassword('')
 
@@ -56,12 +57,13 @@ const App = () => {
       setUsername('')
       setPassword('')
     }
+    // add a dispatch to clear the state
   }
 
   const clearLocStor = (event) => {
     event.preventDefault()
     window.localStorage.clear()
-    setUser(null)
+    dispatch(setTheUser(null))
   }
 
   const createBlog = async (blogObject) => {
@@ -85,6 +87,8 @@ const App = () => {
     dispatch(initializeBlogs())
     dispatch(timedValid('The blog entry has been deleted'))
   }
+
+  const user = useSelector(state => state.user)
 
   return (
     <div>
