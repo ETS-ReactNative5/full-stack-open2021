@@ -74,7 +74,7 @@ const CreateForm = ({ createBlog, user }) => {
             focus:invalid:border-pink-500 focus:invalid:ring-pink-500 dark:bg-slate-900 dark:text-slate-200 dark:text-slate-200 dark:placeholder:text-slate-200'
           />
         </div>
-        <button type='submit' id="create-button" className='font-mono text-slate-700 p-2 w-32 rounded-md border-solid border-blue-400/30 hover:border-blue-400 hover:shadow-md hover:transition-all dark:text-white dark:bg-slate-900'>Create</button>
+        <button type='submit' id="create-button" className='font-mono text-slate-700 p-2 w-32 rounded-md border-solid border-blue-400/30 hover:border-blue-400 hover:shadow-md hover:transition-all dark:text-white dark:bg-slate-900 mb-3'>Create</button>
       </form>
     </div>
   )

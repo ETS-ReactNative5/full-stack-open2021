@@ -22,29 +22,27 @@ const Users = () => {
 
 
   return (
-    <div>
-      <div>
-       <h2>Users</h2>
-       <table>
+    <div className='container mx-auto'>
+       <h2 className='text-slate-700 dark:text-slate-200'>Users</h2>
+       <table className='table-auto border-solid border-collapse border-blue-100'>
          <thead>
           <tr>
-            <td><strong>Name</strong></td>
-            <td><strong>Blogs Created</strong></td>
+            <td className='text-slate-700 border-solid border-blue-100 dark:border-blue-400/40 p-3 w-60 dark:text-slate-200'><strong>Name</strong></td>
+            <td className='text-slate-700 dark:text-slate-200 border-solid border-blue-100 p-3 w-60 dark:border-blue-400/40'><strong>Blogs Created</strong></td>
           </tr>
          </thead>
          <tbody>
           {
             users.map(user => (
                 <tr key={user.id}>
-                  <td><Link to={`/users/${user.id}`}>{user.name}</Link></td>
-                  <td>{user.blogs.length}</td>
+                  <td className='border-solid border-blue-100 dark:border-blue-400/40'><Link to={`/users/${user.id}`} className='no-underline visited:text-slate-700 dark:visited:text-slate-200 hover:underline hover:decoration-slate-900 dark:hover:decoration-slate-200 p-3  '>{user.name}</Link></td>
+                  <td className='text-slate-700 border-solid border-blue-100 p-3 dark:text-slate-200 dark:border-blue-400/40'>{user.blogs.length}</td>
                 </tr>
             ))
           }
          </tbody>
        </table>
       </div>
-    </div>
   )
 }
 
