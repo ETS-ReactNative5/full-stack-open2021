@@ -68,15 +68,23 @@ const App = () => {
 
 
   return (
-    <div>
+    <div className='dark:bg-slate-900 w-screen h-screen'>
     {
       user
       && <div className='container mx-auto'>
-          <div className='flex items-center justify-start space-x-6 '>
-            <Link style={{ padding: 5 }} to='/'>blogs</Link>
-            <Link style={{ padding: 5 }} to='/users'>users</Link>
-            <p>{user.name} logged in</p>
-            <button onClick={clearLocStor}>log out</button>
+          <div className='flex items-center justify-between'>
+            <div className='flex items-center justify-between space-x-6'>
+              <Link to='/' className='no-underline visited:text-slate-900 dark:visited:text-slate-200 hover:underline hover:decoration-slate-900 dark:hover:decoration-slate-200'>
+                Blogs
+              </Link>
+              <Link to='/users' className='no-underline visited:text-slate-900 dark:visited:text-slate-200 hover:underline hover:decoration-slate-900 dark:hover:decoration-slate-200'>
+                Users
+              </Link>
+            </div>
+            <div className='flex space-x-6 items-center'>
+              <p className='dark:text-slate-200'>'{user.name}' logged in</p>
+              <button onClick={clearLocStor} className='font-mono p-2 w-28 h-10 rounded-md border-solid border-blue-400/30 hover:border-blue-400 hover:shadow-md hover:transition-all dark:text-slate-200 dark:bg-slate-900'>Logout</button>
+            </div>
           </div>
         </div>
     }

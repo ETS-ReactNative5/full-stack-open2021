@@ -29,20 +29,20 @@ const BlogList = () => {
     return null
   })
 
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: 'solid',
-    borderWidth: 1,
-    marginBottom: 5
-  }
+  // const blogStyle = {
+  //   paddingTop: 10,
+  //   paddingLeft: 2,
+  //   border: 'solid',
+  //   borderWidth: 1,
+  //   marginBottom: 5
+  // }
 
   return (
     <div className='container mx-auto'>
       {userBlogs.map(blog => (
         blog !== null
-          ? <div key={blog.id} style={blogStyle} className='blog'>
-           <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
+          ? <div key={blog.id} className='flex items-center pl-6 blog rounded-md border-solid border-blue-400/30 mb-6 h-16'>
+           <Link to={`/blogs/${blog.id}`} className='no-underline visited:text-slate-900 dark:visited:text-slate-200 hover:underline hover:decoration-slate-900 dark:hover:decoration-slate-200'>{blog.title}</Link>
           </div>
           : ''
       ))}

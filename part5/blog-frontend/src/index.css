@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+
+html {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  }
+
+
 .valid {
     color: green;
     background: lightgrey;
