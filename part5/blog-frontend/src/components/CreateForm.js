@@ -41,6 +41,7 @@ const CreateForm = ({ createBlog, user }) => {
             required
             value={newTitle}
             onChange={handleTitleChange}
+            autoComplete='off'
             placeholder='write the title'
             className='font-mono text-slate-700 w-72 h-6 p-1 pl-3 rounded-md border-solid border-blue-400/30 hover:border-blue-400 hover:transition-all hover:shadow-md focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 invalid:border-pink-500 invalid:text-pink-600
             focus:invalid:border-pink-500 focus:invalid:ring-pink-500 dark:bg-slate-900 dark:text-slate-200 dark:placeholder:text-slate-200'
@@ -55,6 +56,7 @@ const CreateForm = ({ createBlog, user }) => {
             required
             value={newAuthor}
             onChange={handleAuthorChange}
+            autoComplete='off'
             placeholder='write the author'
             className='font-mono text-slate-700 w-72 h-6 p-1 pl-3 rounded-md border-solid border-blue-400/30 hover:border-blue-400 hover:transition-all hover:shadow-md focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 invalid:border-pink-500 invalid:text-pink-600
             focus:invalid:border-pink-500 focus:invalid:ring-pink-500 dark:bg-slate-900 dark:text-slate-200 dark:placeholder:text-slate-200'
@@ -69,6 +71,7 @@ const CreateForm = ({ createBlog, user }) => {
             value={newUrl}
             required
             onChange={handleUrlChange}
+            autoComplete='off'
             placeholder='write the url'
             className='font-mono text-slate-700 w-72 h-6 p-1 pl-3 rounded-md border-solid border-blue-400/30 hover:border-blue-400 hover:transition-all hover:shadow-md focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 invalid:border-pink-500 invalid:text-pink-600
             focus:invalid:border-pink-500 focus:invalid:ring-pink-500 dark:bg-slate-900 dark:text-slate-200 dark:text-slate-200 dark:placeholder:text-slate-200'

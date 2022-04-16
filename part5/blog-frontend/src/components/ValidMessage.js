@@ -9,7 +9,7 @@ const ValidMessage = () => {
   }
 
   return (
-    <div className="valid">
+    <div className="className='text-2xl text-green-600 font-semibold border-solid rounded-md border-green-500 px-6 py-3 w-full'">
       {message}
     </div>
   )
