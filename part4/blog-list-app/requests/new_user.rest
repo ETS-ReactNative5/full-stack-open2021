@@ -52,7 +52,7 @@ Content-Type: application/json
 {
     "username": "reginald",
     "name": "Reginald",
-    "password": "d",
+    "password": "dododo",
     "blogs": []
 }
 ###

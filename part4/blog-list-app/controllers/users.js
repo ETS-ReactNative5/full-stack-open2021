@@ -5,16 +5,22 @@ const User = require('../models/user')
 
 usersRouter.post('/', async (request, response) => {
     const body = request.body
-
     if (!body.username || !body.password) {
         return response.status(400).json({
             error: 'missing username or password'
         })
     }
-
     if (body.username.length < 3 || body.password.length < 3) {
         return response.status(400).json({
             error: 'short username or password'
+        })
+    }
+    const allUsers = await User.find({})
+    userAlreadyTaken = allUsers.find(user => body.username === user.username) 
+    console.log(userAlreadyTaken);
+    if (userAlreadyTaken) {
+        return response.status(400).json({
+            error: 'username already taken'
         })
     }
 
