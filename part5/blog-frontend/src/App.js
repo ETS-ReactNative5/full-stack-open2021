@@ -1,16 +1,6 @@
 import { useEffect } from 'react'
 import './index.css'
 
-// SERVICES
-import userService from './services/users'
-
-// COMPONENTS
-import Home from './components/Home'
-import Users from './components/Users'
-import UserBlogs from './components/UserBlogs'
-import LoginForm from './components/LoginForm'
-import Blog from './components/Blog'
-
 // Redux implementation
 import { useDispatch, useSelector } from 'react-redux'
 import { initializeBlogs } from './reducers/blogsReducer'
@@ -21,6 +11,17 @@ import { addAllUsers } from './reducers/usersReducer'
 import {
   Routes, Route, Link, useMatch, Navigate
 } from 'react-router-dom'
+
+// SERVICES
+import userService from './services/users'
+
+// COMPONENTS
+import Home from './components/Home'
+import Users from './components/Users'
+import UserBlogs from './components/UserBlogs'
+import LoginForm from './components/LoginForm'
+import Blog from './components/Blog'
+import SignUpForm from './components/SignupForm'
 
 
 const App = () => {
@@ -94,6 +95,7 @@ const App = () => {
           }/>
         <Route path='/users' element={<Users />} />
         <Route path='/login' element={<LoginForm />} />
+        <Route path='/signup' element={<SignUpForm />} />
         <Route path='/users/:id' element={<UserBlogs user={userMatch} />} />
         <Route path='/blogs/:id' element={<Blog blog={blogMatch} />} />
       </Routes>

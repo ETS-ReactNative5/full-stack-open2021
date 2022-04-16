@@ -11,6 +11,7 @@ import blogService from '../services/blogs'
 import { setTheUser } from '../reducers/userReducer'
 import { timedError } from '../reducers/errorReducer'
 import ErrorMessage from './ErrorMessage'
+import ValidMessage from './ValidMessage'
 
 
 const LoginForm = () => {
@@ -55,6 +56,7 @@ const LoginForm = () => {
     <div className='flex flex-col justify-center items-center h-screen font-mono bg-white dark:bg-slate-900'>
       <div className='h-96'>
         <ErrorMessage/>
+        <ValidMessage/>
         <h2 className='text-4xl text-slate-700 dark:text-slate-200'>Login</h2>
         <form onSubmit={handleLogin} className='flex flex-col'>
           <div className='flex flex-col mb-6'>
@@ -82,7 +84,10 @@ const LoginForm = () => {
               focus:invalid:border-pink-500 focus:invalid:ring-pink-500 dark:bg-slate-900 dark:text-slate-200'
             />
           </div>
-          <button type="submit" className='font-mono p-2 w-32 rounded-md border-solid border-blue-400/30 hover:border-blue-400 hover:shadow-md hover:transition-all dark:text-white dark:bg-slate-900'>Login</button>
+          <div className='flex justify-between'>
+            <button type="submit" className='font-mono p-2 w-32 rounded-md border-solid border-blue-400/30 hover:border-blue-400 hover:shadow-md hover:transition-all dark:text-white dark:bg-slate-900'>Login</button>
+            <button type="button" onClick={() => navigate('/signup')} className='font-mono p-2 w-32 rounded-md border-solid border-blue-400/30 hover:border-blue-400 hover:shadow-md hover:transition-all dark:text-white dark:bg-slate-900'>Sign up</button>
+          </div>
         </form>
       </div>
     </div>
