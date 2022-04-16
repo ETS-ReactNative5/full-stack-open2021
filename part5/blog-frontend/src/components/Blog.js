@@ -63,7 +63,7 @@ const Blog = ({ blog }) => {
   }
 
   return (
-    <>
+    <div className='container mx-auto'>
       <div>
         <h1>{blog.title} {blog.author}</h1>
         <div>
@@ -92,7 +92,7 @@ const Blog = ({ blog }) => {
           ))}
         </ul>
       </div>
-    </>
+    </div>
   )
 }
 

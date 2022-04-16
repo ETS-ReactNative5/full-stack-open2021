@@ -38,7 +38,7 @@ const BlogList = () => {
   }
 
   return (
-    <div>
+    <div className='container mx-auto'>
       {userBlogs.map(blog => (
         blog !== null
           ? <div key={blog.id} style={blogStyle} className='blog'>

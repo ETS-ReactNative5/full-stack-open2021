@@ -34,7 +34,7 @@ const Blogs = () => {
   }
 
   return (
-      <div>
+      <div className='container mx-auto'>
           <ValidMessage/>
           <h2>blogs</h2>
           <Togglable buttonLabel='Create new blog' ref={blogFormRef}>

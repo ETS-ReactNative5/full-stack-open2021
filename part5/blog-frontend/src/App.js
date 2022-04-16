@@ -66,25 +66,19 @@ const App = () => {
       ? blogs.find(b => b.id === bMatch.params.id)
       : null
 
-  const navbar = {
-    display: 'flex',
-    alignItems: 'center',
-    backgroundColor: '#ccc',
-    padding: '0 20px 0 20px', 
-  }
 
   return (
     <div>
     {
       user
-      && <>
-          <div style={navbar} className='nav'>
+      && <div className='container mx-auto'>
+          <div className='flex items-center justify-start space-x-6 '>
             <Link style={{ padding: 5 }} to='/'>blogs</Link>
             <Link style={{ padding: 5 }} to='/users'>users</Link>
             <p>{user.name} logged in</p>
             <button onClick={clearLocStor}>log out</button>
           </div>
-        </>
+        </div>
     }
       <Routes>
         <Route path='/' element={

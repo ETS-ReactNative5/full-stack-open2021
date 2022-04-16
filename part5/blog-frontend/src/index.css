@@ -1,3 +1,7 @@
+@tailwind case;
+@tailwind components;
+@tailwind utilities;
+
 .error {
     color: red;
     background: lightgrey;
