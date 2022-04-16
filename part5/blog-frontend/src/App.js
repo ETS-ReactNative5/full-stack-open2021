@@ -74,16 +74,16 @@ const App = () => {
       && <div className='container mx-auto'>
           <div className='flex items-center justify-between'>
             <div className='flex items-center justify-between space-x-6'>
-              <Link to='/' className='no-underline visited:text-slate-900 dark:visited:text-slate-200 hover:underline hover:decoration-slate-900 dark:hover:decoration-slate-200'>
+              <Link to='/' className='no-underline visited:text-slate-700 dark:visited:text-slate-200 hover:underline hover:decoration-slate-900 dark:hover:decoration-slate-200 '>
                 Blogs
               </Link>
-              <Link to='/users' className='no-underline visited:text-slate-900 dark:visited:text-slate-200 hover:underline hover:decoration-slate-900 dark:hover:decoration-slate-200'>
+              <Link to='/users' className='no-underline visited:text-slate-700 dark:visited:text-slate-200 hover:underline hover:decoration-slate-900 dark:hover:decoration-slate-200'>
                 Users
               </Link>
             </div>
             <div className='flex space-x-6 items-center'>
-              <p className='dark:text-slate-200'>'{user.name}' logged in</p>
-              <button onClick={clearLocStor} className='font-mono p-2 w-28 h-10 rounded-md border-solid border-blue-400/30 hover:border-blue-400 hover:shadow-md hover:transition-all dark:text-slate-200 dark:bg-slate-900'>Logout</button>
+              <p className='text-slate-700 dark:text-slate-200'>'{user.name}' logged in</p>
+              <button onClick={clearLocStor} className='font-mono text-slate-700 p-2 w-28 h-10 rounded-md border-solid border-blue-400/30 hover:border-blue-400 hover:shadow-md hover:transition-all dark:text-slate-200 dark:bg-slate-900'>Logout</button>
             </div>
           </div>
         </div>

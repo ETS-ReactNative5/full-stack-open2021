@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import jwt_decode from 'jwt-decode'
 import { useDispatch, useSelector } from 'react-redux'
-import { addAComment, deleteBlogPost, updateBlogLike } from '../reducers/blogsReducer'
+import { addAComment, updateBlogLike } from '../reducers/blogsReducer'
 import { useNavigate } from 'react-router-dom'
 
 const Blog = ({ blog }) => {
@@ -35,15 +35,6 @@ const Blog = ({ blog }) => {
     dispatch(updateBlogLike(newBlog, blog.id))
   }
 
-  const deletePost = (event) => {
-    event.preventDefault()
-    if (window.confirm(`Remove Blog ${blog.title} by ${blog.author}?`)) {
-      const token_decoded = jwt_decode(user.token)
-      console.log(token_decoded)
-      dispatch(deleteBlogPost(blog.id, token_decoded))
-    }
-  }
-
   const generateId = () => {
     return Math.random()
   }
@@ -65,30 +56,45 @@ const Blog = ({ blog }) => {
   return (
     <div className='container mx-auto'>
       <div>
-        <h1>{blog.title} {blog.author}</h1>
-        <div>
-          <div>{blog.url}</div>
-          <div>{blog.likes} likes <button onClick={like} data-testid="#like">like</button></div>
-          <div>Added by: {blog.author}</div>
-          <button onClick={deletePost}>remove</button>
-          <button onClick={() => navigate('/')}>back</button>
+        <button onClick={() => navigate('/')} className='font-mono text-center text-slate-700 p-2 w-20 h-9 rounded-md border-solid border-blue-400/30 hover:border-blue-400 hover:shadow-md hover:transition-all dark:text-slate-200 dark:bg-slate-900 mt-2'>Back</button>
+        <h1 className='text-slate-700 dark:text-slate-200'>{blog.title} {blog.author}</h1>
+        <div className='flex items-center justify-between'>
+          <div>
+            <div className='text-slate-700 dark:text-slate-200 italic mb-3'>Added by: {blog.author}</div>
+            <div className='text-slate-700 mb-6 dark:text-slate-200'>{blog.url}</div>
+          </div>
+          <div>
+            <div className='text-slate-700 dark:text-slate-200'>{blog.likes} likes <button onClick={like} data-testid="#like" className='font-mono text-center text-slate-700 p-2 w-20 h-9 rounded-md border-solid border-blue-400/30 hover:border-blue-400 hover:shadow-md hover:transition-all dark:text-slate-200 dark:bg-slate-900'>Like</button></div>
+          </div>
         </div>
-        <h3>comments</h3>
-        <input 
-          type='text' 
-          name='comment'
-          value={comment}
-          onChange={handleChange}
-          placeholder='comment...'
-          />
-        <input 
-          type="button" 
-          onClick={handleComment}
-          value='add comment'
-          />
-        <ul>
+          
+        <h3 className='text-slate-700 dark:text-slate-200'>Comments</h3>
+        <div>
+          <input 
+            type='text' 
+            name='comment'
+            value={comment}
+            onChange={handleChange}
+            placeholder='comment...'
+            autoComplete='off'
+            className='font-mono w-72 h-6 p-1 pl-3 rounded-md border-solid border-blue-400/30 hover:border-blue-400 hover:transition-all hover:shadow-md focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 invalid:border-pink-500 invalid:text-pink-600
+            focus:invalid:border-pink-500 focus:invalid:ring-pink-500 dark:bg-slate-900 dark:text-slate-200 mr-6'
+            />
+          <input 
+            type="button" 
+            onClick={handleComment}
+            value='add comment'
+            className='font-mono text-center text-slate-700 p-2 w-32 h-9 rounded-md border-solid border-blue-400/30 hover:border-blue-400 hover:shadow-md hover:transition-all dark:text-slate-200 dark:bg-slate-900'
+            />
+        </div>
+        <ul className='list-none'>
           {blog.comments.map(comment => (
-            <li key={generateId()}>{comment}</li>
+            <li 
+              key={generateId()}
+              className='text-slate-700 dark:text-slate-200 mb-5 mt-5'
+            >
+              {comment}
+            </li>
           ))}
         </ul>
       </div>

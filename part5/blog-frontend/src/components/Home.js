@@ -34,13 +34,13 @@ const Blogs = () => {
   }
 
   return (
-      <div className='container mx-auto dark:bg-slate-900'>
+      <div className='container mx-auto text-slate-700 dark:bg-slate-900'>
           <ValidMessage/>
-          <h2 className='text-3xl dark:text-slate-200'>
+          <h2 className='text-3xl text-slate-700 dark:text-slate-200'>
             Blogs
           </h2>
           <Togglable buttonLabel='Create new blog' ref={blogFormRef}>
-            <h2 className='dark:text-slate-200'>Create New Entry</h2>
+            <h2 className='text-slate-700 dark:text-slate-200'>Create New Entry</h2>
             <CreateForm createBlog={createBlog} user={user}/>
           </Togglable>
           
