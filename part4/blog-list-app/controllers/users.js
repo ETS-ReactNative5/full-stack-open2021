@@ -17,7 +17,7 @@ usersRouter.post('/', async (request, response) => {
     }
     const allUsers = await User.find({})
     userAlreadyTaken = allUsers.find(user => body.username === user.username) 
-    console.log(userAlreadyTaken);
+
     if (userAlreadyTaken) {
         return response.status(400).json({
             error: 'username already taken'

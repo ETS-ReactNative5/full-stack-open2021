@@ -9,7 +9,7 @@ import { addAllUsers } from './reducers/usersReducer'
 
 // Router Implementation
 import {
-  Routes, Route, Link, useMatch, Navigate
+  Routes, Route, Link, useMatch, Navigate, useNavigate
 } from 'react-router-dom'
 
 // SERVICES
@@ -26,6 +26,7 @@ import SignUpForm from './components/SignupForm'
 
 const App = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
@@ -51,6 +52,7 @@ const App = () => {
     event.preventDefault()
     window.localStorage.clear()
     dispatch(setTheUser(null))
+    navigate('/login')
   }
   
   const user = useSelector(state => state.user)
@@ -75,10 +77,10 @@ const App = () => {
       && <div className='container mx-auto'>
           <div className='flex items-center justify-between'>
             <div className='flex items-center justify-between space-x-6'>
-              <Link to='/' className='no-underline visited:text-slate-700 dark:visited:text-slate-200 hover:underline hover:decoration-slate-900 dark:hover:decoration-slate-200 '>
+              <Link to='/' className='no-underline text-slate-700 visited:text-slate-700 dark:text-slate-200 dark:visited:text-slate-200 hover:underline hover:decoration-slate-900 dark:hover:decoration-slate-200 '>
                 Blogs
               </Link>
-              <Link to='/users' className='no-underline visited:text-slate-700 dark:visited:text-slate-200 hover:underline hover:decoration-slate-900 dark:hover:decoration-slate-200'>
+              <Link to='/users' className='no-underline text-slate-700 visited:text-slate-700 dark:text-slate-200 dark:visited:text-slate-200 hover:underline hover:decoration-slate-900 dark:hover:decoration-slate-200'>
                 Users
               </Link>
             </div>

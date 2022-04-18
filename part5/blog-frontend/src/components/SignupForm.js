@@ -50,6 +50,10 @@ const SignUpForm = () => {
     try {
       await userService.signupNewUser(newUser)
       dispatch(timedValid('User successfully created'))
+      setUsername('')
+      setName('')
+      setPassword('')
+      setConfirmedPassword('')
       navigate('/login')
 
     } catch (exception) {

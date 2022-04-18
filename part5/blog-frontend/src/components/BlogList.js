@@ -56,7 +56,7 @@ const BlogList = () => {
               <div className='flex items-center justify-between w-full'>
                 <Link 
                   to={`/blogs/${blog.id}`}
-                  className='no-underline visited:text-slate-700 dark:visited:text-slate-200 hover:underline hover:decoration-slate-900 dark:hover:decoration-slate-200 '
+                  className='no-underline text-slate-700 visited:text-slate-700 dark:text-slate-200 dark:visited:text-slate-200 hover:underline hover:decoration-slate-900 dark:hover:decoration-slate-200 '
                 >
                   {blog.title}
                 </Link>
