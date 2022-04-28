@@ -1,5 +1,22 @@
-const { ApolloServer, gql } = require('apollo-server')
+const { ApolloServer, gql, UserInputError } = require('apollo-server')
 const { v1: uuid } = require('uuid')
+require('dotenv').config()
+const mongoose = require('mongoose')
+
+const Book = require('./models/book')
+const Author = require('./models/author')
+
+// Connecting to MongoDB
+console.log("Connecting to: ", process.env.MONGODB_URI);
+mongoose.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+}).then(() => {
+  console.log("Connected to MongoDB");
+}).catch ((e) => {
+  console.error('Error connection to MongoDB: ', e.message)
+})
+
 
 let authors = [
   {
@@ -26,12 +43,6 @@ let authors = [
     id: "afa5b6f3-344d-11e9-a414-719c6709cf3e",
   },
 ]
-
-/*
- * English:
- * It might make more sense to associate a book with its author by storing the author's id in the context of the book instead of the author's name
- * However, for simplicity, we will store the author's name in connection with the book
-*/
 
 let books = [
   {
@@ -88,9 +99,10 @@ let books = [
 const typeDefs = gql`
   type Book {
     title: String!
-    author: String!
-    published: Int
-    genres: [String!]
+    published: Int!
+    author: Author!
+    genres: [String!]!
+    id: ID!
   }
 
   type Author {
@@ -103,7 +115,7 @@ const typeDefs = gql`
   type Query {
     bookCount(author: String): Int!
     authorCount: Int!
-    allBooks(author: String, genre: String): [Book!]!
+    allBooks: [Book!]!
     allAuthors: [Author!]!
   }
 
@@ -113,7 +125,7 @@ const typeDefs = gql`
       author: String!
       published: Int
       genres: [String!]
-    ): Book
+    ): Book!
     editAuthor(
       name: String!
       setToBorn: String
@@ -123,33 +135,19 @@ const typeDefs = gql`
 
 const resolvers = {
   Query: {
-    bookCount: (root, args) => {
+    bookCount: async (root, args) => {
       if (Object.keys(args).length === 0){
-        return books.length
+        return Book.collection.countDocuments()
       }
 
-      const bookAuthor = books.filter(b => b.author === args.author) 
+      const bookAuthor = Book.findAll({ author: args.author })
       return bookAuthor.length
     },
 
-    authorCount: () => authors.length,
+    authorCount: async () => Author.collection.countDocuments(),
 
-    allBooks: (root, args) => {
-      if (Object.keys(args).length === 0) {
-        return books
-      }
-      let booksSelected = []
-      if (args.genre && args.author) {
-        booksSelected = books.filter(book => book.genres.includes(args.genre) && book.author === args.author)
-      } else if (args.genre) {
-        booksSelected = books.filter(book => book.genres.includes(args.genre))
-      } else if (args.author) {
-        booksSelected = books.filter(book => book.author === args.author)
-      } 
-      
-      return booksSelected
-  },
-    allAuthors: () => authors,
+    allBooks: async () => { return Book.find({}) },
+    allAuthors: async () => Author.find({}),
   },
   Author: {
     bookCount(parent) {
@@ -157,23 +155,28 @@ const resolvers = {
     }
   },
   Mutation: {
-    addBook: (root, args) => {
-      // Add the book to the books array
-      books = books.concat(args)
+    addBook: async (root, args) => {
+      const author = await Author.findOne({ name: args.author })
 
-      // check if the author is in the array
-      const authorIncluded = authors.filter(a => a.name === args.author)
-
-      // Create a new author in the authors aray
-      if (authorIncluded.length === 0) {
-        const newAuthor = {
-          name: args.author,
-          id: uuid(),
-        }
-        authorAdded = authors.concat(newAuthor)
-        authors = authorAdded
-        console.log(authors);
+      if (author === null){
+        const newAuthor = new Author({ name: args.author })
+        console.log('waiting to save author...'); 
+        await newAuthor.save()
+        console.log('new author saved');
       }
+
+      const authorSaved = await Author.findOne({ name: args.author })
+      const book = new Book({...args, author: authorSaved._id})
+
+      try {
+        await book.save()
+        console.log('success');
+      } catch (e) {
+        throw new UserInputError(e.message, {
+          invalidArgs: args
+        })
+      }
+
       return args
     },
     editAuthor: (root, args) => {
