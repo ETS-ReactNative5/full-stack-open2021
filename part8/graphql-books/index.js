@@ -100,7 +100,7 @@ const typeDefs = gql`
   type Book {
     title: String!
     published: Int!
-    author: Author!
+    author: Author
     genres: [String!]!
     id: ID!
   }
@@ -128,7 +128,7 @@ const typeDefs = gql`
     ): Book!
     editAuthor(
       name: String!
-      setToBorn: String
+      setToBorn: String!
     ): Author
   }
 `
@@ -179,15 +179,17 @@ const resolvers = {
 
       return args
     },
-    editAuthor: (root, args) => {
-      const authorSelected = authors.find(a => a.name === args.name)
+    editAuthor: async (root, args) => {
+      const authorSelected = Author.findOne({ name: args.name })
+      console.log('found');
       if (!authorSelected) {
         return null
       }
-
-      const updatedAuthor = { ...authorSelected, born: args.setToBorn }
-      authors = authors.map(a => a.name === args.name ? updatedAuthor : a)
-      return updatedAuthor
+      const bornInt = parseInt(args.setToBorn)
+      const updatedAuthor = await Author.updateOne({ name: args.name}, { $set: { born: bornInt } } )
+      console.log(updatedAuthor);
+      
+      return authorSelected
     }
   }
 }
