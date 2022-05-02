@@ -97,7 +97,7 @@ const resolvers = {
   },
   Author: {
     bookCount: async (parent) => {
-      const allBooks = await Book.find({ author: parent})
+      const allBooks = await Book.find({ author: parent}).populate('author')
       return allBooks.length
     }
   },
@@ -129,7 +129,7 @@ const resolvers = {
         })
       }
 
-      return args
+      return Book.findById(book._id).populate('author')
     },
     editAuthor: async (root, args) => {
       if (!context.currentUser) {
