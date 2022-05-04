@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { gql, useApolloClient, useQuery } from '@apollo/client'
 import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
@@ -8,6 +8,7 @@ import PhoneForm from './components/PhoneForm'
 import LoginForm from './components/LoginForm'
 
 
+
 const App = () => {
   const [errorMessage, setErrorMessage] = useState(null)
   const [token, setToken] = useState(null)
@@ -15,6 +16,15 @@ const App = () => {
     pollInterval: 2000
   })
   const client = useApolloClient()
+
+  useEffect(() => {
+    if (localStorage.getItem('phonenumbers-user-token')) {
+      const token = localStorage.getItem('phonenumbers-user-token')
+      setToken(token)
+      localStorage.setItem('phonenumbers-user-token', token)
+    }
+  }, [])
+
 
   if (result.loading) {
     return <div>loading...</div>
