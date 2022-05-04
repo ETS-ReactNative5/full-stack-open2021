@@ -131,7 +131,7 @@ const resolvers = {
 
       return Book.findById(book._id).populate('author')
     },
-    editAuthor: async (root, args) => {
+    editAuthor: async (root, args, context) => {
       if (!context.currentUser) {
         throw new AuthenticationError("not authenticated")
       }
