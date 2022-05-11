@@ -9,6 +9,9 @@ This course teaches about React, React Redux, Hooks, Node.js, Express, MongoDB, 
 Full Stack Blog App that allows a user to sign up, login, create blogs, check the blogs already created, and different actions. The styling has been done entirely with TailwindCSS. 
 The tech stack is React, Node, MongoDB, and Express. 
 
+You can login with these credentials to check out the application:
+username: test
+password: test
 
 [Phonebook App](https://arcane-harbor-15249.herokuapp.com/)
 
