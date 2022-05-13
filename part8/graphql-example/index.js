@@ -12,7 +12,6 @@ const { SubscriptionServer } = require('subscriptions-transport-ws')
 require('dotenv').config();
 
 const MONGODB_URI = process.env.MONGODB_URI
-const JWT_SECRET_WORD = process.env.JWT_SECRET
 
 console.log('Connecting to: ', MONGODB_URI);
 

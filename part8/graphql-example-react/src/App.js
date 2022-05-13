@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { gql, useApolloClient, useQuery } from '@apollo/client'
+import {
+  useQuery, useMutation, useSubscription, useApolloClient
+} from '@apollo/client'
 import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
 import { ALL_PERSONS } from './queries'
@@ -7,7 +9,20 @@ import Notify from './components/Notify'
 import PhoneForm from './components/PhoneForm'
 import LoginForm from './components/LoginForm'
 
-
+export const updateCache = (cache, query, addedPerson) => {
+  const uniqByName = (a) => {
+    let seen = new Set()
+    return a.filter((item) => {
+      let k = item.name
+      return seen.has(k) ? false : seen.add(k)
+    })
+  }
+  cache.updateQuery(query, ({ allPersons }) => {
+    return {
+      allPersons: uniqByName(allPersons.concat(addedPerson)),
+    }
+  })
+}
 
 const App = () => {
   const [errorMessage, setErrorMessage] = useState(null)
@@ -24,6 +39,14 @@ const App = () => {
       localStorage.setItem('phonenumbers-user-token', token)
     }
   }, [])
+
+  useSubscription(PERSON_ADDED, {
+    onSubscriptionData: ({ subscriptionData, client }) => {
+      const addedPerson = subscriptionData.data.personAdded
+      notify(`${addedPerson.name} added`)
+      updateCache(client.cache, { query: ALL_PERSONS }, addedPerson)
+    },
+  })
 
 
   if (result.loading) {
